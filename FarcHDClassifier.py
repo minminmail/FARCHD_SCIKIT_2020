@@ -374,6 +374,7 @@ class FarcHDClassifier():
 
         # Input validation
         test_X = check_array(test_X, accept_sparse=True)
+        selected_array = [1, 1, 1, 1, 1, 1, 1, 1]
         # Check is fit had been called
         check_is_fitted(self, ['X_', 'y_'], 'is_fitted_')
 
@@ -383,7 +384,8 @@ class FarcHDClassifier():
         hits = 0
 
         for i in range(0, row_num):
-            predict_y[i] = self.ruleBase.FRM(test_X[i])
+            predict_y[i] = self.rule_base.frm_ac_with_two_parameters(test_X[i], selected_array)
+
             print("predict_y[" + str(i) + "] is :" + str(predict_y[i]))
             print("test_y[" + str(i) + "] is :" + str(test_y[i]))
 

@@ -92,3 +92,4 @@ class Main:
         farchd_classifier.fit(X,y)
         test_x = [4.6, 3.1, 1.5, 0.2]
         farchd_classifier.predict(iris_X_test)
+        farchd_classifier.score(iris_X_test,iris_y_test)
