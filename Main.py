@@ -29,7 +29,6 @@
 from Cython.Compiler import Main
 
 from FarcHD_py.FarcHDClassifier import FarcHDClassifier
-from FarcHD_py.OldFarcHD import Farchd
 from os import listdir
 from os.path import isfile, join
 import sys
@@ -45,23 +44,7 @@ import numpy as np
 
 
 class Main:
-    # config_files_folder = Path("C:\phd_algorithms\chi-scikit-granularity-rules-experiments\few_disjuncts_1")
-    # file_to_open = None
 
-    # Default Constructor
-
-    # * It launches the algorithm
-    # * @param confFile String it is the filename of the configuration file.
-
-    def executeMultiFiles(self):
-        # print("MaultiMain execute begin...")
-        lf = LoadFiles()
-        lf.parseConfigurationFile("iris", "config0s0.txt")
-        self.X = lf.get_X()
-        self.y = lf.get_y()
-
-    # farc_hd = Farchd(parameters)
-    # farc_hd.execute()
 
     # * Main Program
     # * @param args It contains the name of the configuration file

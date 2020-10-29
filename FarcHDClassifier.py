@@ -9,7 +9,6 @@ from sklearn.metrics import euclidean_distances
 
 from FarcHD_py.Apriori import Apriori
 from FarcHD_py.DataBase import DataBase
-from FarcHD_py.OldParseParameters import ParseParameters
 from FarcHD_py.MyDataSet import MyDataSet
 import datetime
 import random
