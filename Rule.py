@@ -27,7 +27,7 @@
 #
 # **********************************************************************/
 from FarcHD_py.Fuzzy import Fuzzy
-from FarcHD_py.data_row import data_row
+from FarcHD_py.data_row import DataRow
 
 
 # * <p>This class contains the structure of a Fuzzy Rule</p>
@@ -78,7 +78,7 @@ class Rule:
         self.wracc = 0.0
 
         # print("__init__ of Rule")
-        self.data_row_here = data_row()
+        self.data_row_here = DataRow()
 
     # Default constructor
 
@@ -120,9 +120,12 @@ class Rule:
     def set_confidence(self, confident_value):
         self.confident_value = confident_value
 
+    """ 
+
     # * It computes the compatibility of the rule with an input example
     # * @param example double[] The input example
     # * @return double the degree of compatibility
+    
 
     def compatibility(self, example):
         if self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM:
@@ -135,10 +138,11 @@ class Rule:
             # here is the algorithm arrives
             # print("in compatibility before the productCompatibility method:  ")
             return self.productCompatibility(example)
+    """
 
-    # * Operator T-min
-    # * @param example double[] The input example
-    # * @return double the computation the the minimum T-norm
+        # * Operator T-min
+        # * @param example double[] The input example
+        # * @return double the computation the the minimum T-norm
 
     def minimumCompatibility(self, example):
         minimum = None

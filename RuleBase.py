@@ -29,7 +29,7 @@
 from FarcHD_py.Fuzzy import Fuzzy
 from FarcHD_py.DataBase import DataBase
 from FarcHD_py.Rule import Rule
-from FarcHD_py.data_row import data_row
+from FarcHD_py.data_row import DataRow
 from FarcHD_py.MyDataSet import MyDataSet
 from FarcHD_py.ExampleWeight import ExampleWeight
 import gc
@@ -86,6 +86,7 @@ class RuleBase:
         self.default_rule = -1
         self.nuncover = 0
         self.nuncover_class_array = [0 for x in range(self.train_myDataSet.get_nclasses())]
+
 
     """
      old Fuzzy Chi init below
@@ -452,7 +453,7 @@ class RuleBase:
             if degrees_class[i] > max_degree:
                 max_degree = degrees_class[i]
                 class_value = i
-        print("the frm_ac_with_two_parameters return value is " + str(class_value))
+        #print("the frm_ac_with_two_parameters return value is " + str(class_value))
         return class_value
 
     def FRM_AC(self, example):
@@ -483,8 +484,9 @@ class RuleBase:
     def generate_negative_rules(self, train, confident_value_pass, zone_confident_pass):
 
         class_value_arr = self.get_class_value_array(train)
+        self.prepare_data_rows(train)
         for i in range(0, len(self.rule_base_array)):
-            rule_negative = Rule()
+            rule_negative = Rule(self.data_base)
             rule_negative.antecedent = self.rule_base_array[i].antecedent
             positive_rule_class_value = self.rule_base_array[i].get_class()
             print("the positive rule class value is " + str(positive_rule_class_value) + " ,the i is :" + str(i))
@@ -511,9 +513,49 @@ class RuleBase:
                             print("Negative rule's class_type" + str(class_type))
                             self.negative_rule_base_array.append(rule_negative)
 
+    def prepare_data_rows(self,train):
+        for i in range(0, train.size()):
+            data_row_temp = DataRow()
+            class_value = train.get_output_as_integer_with_pos(i)
+            example =train.get_example(i)
+            example_feature_array = []
+            for f_variable in range(0, self.n_variables):
+                # print("The f_variable is :"+str(f_variable))
+                # print("The example is :" + str(example))
+                example_feature_array.append(train.get_example(f_variable))
+
+            label_array = []
+            for m in range(0, self.n_variables):
+                max_value = 0.0
+                etq = -1
+                per = None
+                n_labels= self.data_base.num_labels(m)
+                for n in range(0, n_labels):
+                    # print("Inside the second loop of searchForBestAntecedent......")
+                    per = self.data_base.membership_function(m, n, example[i])
+                    if per > max_value:
+                        max_value = per
+                        etq = n
+                if max_value == 0.0:
+                    # print("There was an Error while searching for the antecedent of the rule")
+                    # print("Example: ")
+                    for n in range(0, self.n_variables):
+                        print(str(example[n]) + "\t")
+
+                    print("Variable " + str(m))
+                    exit(1)
+                # print(" The max_value is : " + str(max_value))
+                # print(" ,the j value is : " + str(j))
+
+                label_array.append(etq)
+
+            data_row_temp.set_three_parameters(class_value, example_feature_array, label_array)
+            self.data_row_array.append(data_row_temp)
+
+
     def get_class_value_array(self, train):
         class_value_array = []
-        integer_array = train.getOutputAsInteger()
+        integer_array = train.get_output_as_integer()
         for i in range(0, len(integer_array)):
             exist_yes = False
             for j in range(0, len(class_value_array)):

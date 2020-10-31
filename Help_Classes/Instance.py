@@ -136,7 +136,7 @@ class Instance:
             # Looking if the attribute is an input, an output or it's undefined
 
             curAt = Attributes.getAttributeByPos(Attributes, count)
-            print("inside setThreeParameters curAtis :" + str(curAt))
+            #print("inside setThreeParameters curAtis :" + str(curAt))
             directionAttr = curAt.getDirectionAttribute()
             # print("inside setThreeParameters directionAttr :" + str(directionAttr))
             if directionAttr == Attribute.INPUT:

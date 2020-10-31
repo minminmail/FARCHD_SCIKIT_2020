@@ -1,6 +1,6 @@
 # store the each row, class result , feature values, label values
 # added by rui for negative rule
-class data_row:
+class DataRow:
     class_value = None
     feature_values = []
     label_values = []

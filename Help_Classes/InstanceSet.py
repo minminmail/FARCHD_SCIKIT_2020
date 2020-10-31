@@ -651,7 +651,7 @@ class InstanceSet:
             raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + str(
                 instance_number) + ".")
         instanceHere = self.instanceSet[whichInst]
-        print("instanceHere = " + str(instanceHere))
+        #print("instanceHere = " + str(instanceHere))
         numericValue = 0.0
         try:
             numericValue = instanceHere.getInputRealValues(whichAttr)

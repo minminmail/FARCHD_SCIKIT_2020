@@ -28,7 +28,7 @@ class Itemset:
     #  * @param class_value_pass Class
     #  */
     def __init__(self,class_value_pass):
-        print("Itemset init ....")
+        #print("Itemset init ....")
         self.itemset = []
         self.class_value = class_value_pass
         self.support = 0

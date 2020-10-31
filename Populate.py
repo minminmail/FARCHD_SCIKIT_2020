@@ -194,9 +194,9 @@ class Populate:
         # need to know which order to sort ,how to sort, if the sort will be saved
         self.population_array.sort(key=lambda x: x.fitness, reverse=True)
         while len(self.population_array) > self.pop_size:
-            print("len(self.population_array)"+str(len(self.population_array)))
-            print("len(self.pop_size)" + str(self.pop_size))
-            print("value " + str(self.population_array[self.pop_size]))
+            #print("len(self.population_array)"+str(len(self.population_array)))
+            #print("len(self.pop_size)" + str(self.pop_size))
+            #print("value " + str(self.population_array[self.pop_size]))
             self.population_array.pop(self.pop_size)
         self.best_fitness = self.population_array[0].get_fitness()
 

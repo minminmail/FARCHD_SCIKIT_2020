@@ -422,8 +422,8 @@ class Attributes:
 
     def getAttributeByPos(self, pos):
         lengthAtt = len(self.attributes)
-        print("The size of attribute array is :" + str(lengthAtt))
-        print("The pos given is :" + str(pos))
+        #print("The size of attribute array is :" + str(lengthAtt))
+        #print("The pos given is :" + str(pos))
         if pos < lengthAtt:
             attStr = self.attributes[pos]
             # print("Return :" + str(attStr))

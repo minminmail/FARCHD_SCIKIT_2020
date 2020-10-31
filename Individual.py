@@ -46,7 +46,7 @@ class Individual:
     rule_base = None
 
     def __init__(self):
-        print("Individual init")
+        pass
 
     """
     * @param ruleBase Rule set
@@ -307,7 +307,7 @@ class Individual:
 
         for i in range(0, npos):
             random_value = random.randint(0, dist-1)
-            print("len(position_array) is" +str(len(position_array))+ "random_value"+str(random_value))
+            #print("len(position_array) is" +str(len(position_array))+ "random_value"+str(random_value))
             aux = self.geneR_array[position_array[random_value]]
             self.geneR_array[position_array[random_value]] = indiv.geneR_array[position_array[random_value]]
             indiv.geneR_array[position_array[random_value]] = aux

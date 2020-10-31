@@ -265,13 +265,15 @@ class DataBase:
    * Returns the number of total real labels held by the input attributes.
    * @return The number of real labels
     """
-    def get_nlabels_real(self):
-        count = 0
-        for i in range (0, self.n_variables):
-            if self.varreal_array[i]:
-              count += self.n_labels[i]
-        return count
 
+    def get_nlabels_real(self):
+
+        count = 0
+
+        for i in range(0, self.n_variables):
+            if self.varreal_array[i]:
+                count = count + self.nlabels_array[i]
+        return count
 
 
 
@@ -283,14 +285,6 @@ class DataBase:
         else:
             return self.database[variable][label].fuzzify(value)
 
-    def get_nlabels_real(self):
-
-        count = 0
-
-        for i in range(0, self.n_variables):
-            if self.varreal_array[i]:
-                count = count + self.nlabels_array[i]
-        return count
 
     """
      * Return a String representation of the Triangular Membership Functions of the variable and its label given as arguments. 

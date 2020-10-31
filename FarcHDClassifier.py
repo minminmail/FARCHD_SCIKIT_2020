@@ -100,9 +100,9 @@ class FarcHDClassifier():
     # algorithm parameters
     # int
     nlabels = 0
-
-
-
+    negative_confident_value = 0
+    negative_rule_number = None
+    zone_confident = 0
 
     def __init__(self,prepare_parameter):
         print("__init__ of Fuzzy_Chi begin...")
@@ -218,8 +218,12 @@ class FarcHDClassifier():
 
             self.rules_stage3 = int(self.rule_base.get_size())
 
+            self.rule_base.generate_negative_rules(self.train_mydataset, self.negative_confident_value,self.zone_confident)
+            self.negative_rule_number = len(self.rule_base.negative_rule_base_array)
+
             self.data_base.save_file(self.file_db)
             self.rule_base.save_file(self.file_rb)
+
 
             #  Finally we should fill the training and test  output files
             self.do_output(self.val_mydataset, self.output_tr)
