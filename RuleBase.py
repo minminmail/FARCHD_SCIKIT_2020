@@ -264,7 +264,7 @@ class RuleBase:
             j = j + 1
             cadena_string += self.names[j] + " IS " + negative_rule.antecedent[j].name + ": " + str(
                 self.classes[negative_rule.class_value]) + " with Rule Weight: " + str(negative_rule.weight) + "\n"
-        print("negative rules rule_base_array cadena_string is:" + cadena_string)
+        print("Begin to print rules :" +"\n\n"+ cadena_string)
 
         return cadena_string
 
@@ -530,14 +530,17 @@ class RuleBase:
                 etq = -1
                 per = None
                 n_labels= self.data_base.num_labels(m)
+                print("n_labels: " + str(n_labels))
                 for n in range(0, n_labels):
                     # print("Inside the second loop of searchForBestAntecedent......")
-                    per = self.data_base.membership_function(m, n, example[i])
+                    print("example["+str(m)+")]: " + str(example[m]))
+                    per = self.data_base.membership_function(m, n, example[m])
+                    print("per: " + str(per))
                     if per > max_value:
                         max_value = per
                         etq = n
                 if max_value == 0.0:
-                    # print("There was an Error while searching for the antecedent of the rule")
+                    print("There was an Error while searching for the antecedent of the rule")
                     # print("Example: ")
                     for n in range(0, self.n_variables):
                         print(str(example[n]) + "\t")

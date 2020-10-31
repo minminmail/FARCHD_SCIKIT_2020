@@ -230,9 +230,9 @@ class InstanceSet:
 
             for line in new_data_lines:
                 if new_data_lines is not None:
-                    print("Data line: " + str(line))
+                    #print("Data line: " + str(line))
                     newInstance = Instance()
-                    print("how many data already in the instanceSet: " + str(len(tempSet)))
+                    #print("how many data already in the instanceSet: " + str(len(tempSet)))
                     newInstance.setThreeParameters(line, isTrain, len(tempSet))
                     tempSet.append(newInstance)
 

@@ -101,7 +101,6 @@ class Rule:
     def get_class(self):
         return self.class_value
 
-
     """
        * It sets the consequent of the rule
        * @param clas Class of the rule
@@ -140,9 +139,9 @@ class Rule:
             return self.productCompatibility(example)
     """
 
-        # * Operator T-min
-        # * @param example double[] The input example
-        # * @return double the computation the the minimum T-norm
+    # * Operator T-min
+    # * @param example double[] The input example
+    # * @return double the computation the the minimum T-norm
 
     def minimumCompatibility(self, example):
         minimum = None
@@ -294,9 +293,14 @@ class Rule:
             if self.data_row_here.class_value == self.class_value:
                 all_number_of_the_class = all_number_of_the_class + 1
             meet_antecedent = 0
-            for j in range(0, len(self.data_row_here.label_values)):
 
-                if self.antecedent[j].label == self.data_row_here.label_values[
+
+
+            for j in range(0, len(self.data_row_here.label_values)):
+                print("******self.antecedent[j]  :" + str(self.antecedent[j]))
+                print("self.self.data_row_here.label_values[j]  :" + str(self.data_row_here.label_values[j])+"*******")
+
+                if self.antecedent[j] == self.data_row_here.label_values[
                     j]:  # meet the rule antecedent conditions
                     meet_antecedent = meet_antecedent + 1
             if len(self.antecedent) == meet_antecedent:
@@ -308,8 +312,9 @@ class Rule:
             # print("support_rule_number :"+str(support_rule_number))
             # print("all_number_of_the_class :" + str(all_number_of_the_class))
             self.support_value = round((supp_x / total_number), 4)
+            print("self.support_value in the rule:" + str(self.support_value))
             self.confident_value = round((supp_xy / all_number_of_the_class), 4)
-            # print("self.confident_value in the rule:" + str(self.confident_value))
+            print("self.confident_value in the rule:" + str(self.confident_value))
         if supp_x != 0:
             self.zone_confident = round((supp_xy / supp_x), 4)
 
@@ -326,11 +331,10 @@ class Rule:
         degree = 1.0
         for i in range(0, len(self.antecedent)):
             if degree > 0.0:
-                #for item in example:
-                    #print("item in example is  :" + str(item))
+                # for item in example:
+                # print("item in example is  :" + str(item))
 
-
-                #print("i is :"+ str(i)+" len(self.antecedent) : " + str(len(self.antecedent))+"len(example) : "+ str(len(example)))
+                # print("i is :"+ str(i)+" len(self.antecedent) : " + str(len(self.antecedent))+"len(example) : "+ str(len(example)))
                 degree *= self.data_base.matching(i, self.antecedent[i], example[i])
         return degree * self.confident_value
 
@@ -448,6 +452,7 @@ class Rule:
    * It returns the Confidence of the rule
    * @return Confidence of the rule
     """
+
     def get_confidence(self):
         return self.confident_value
 
@@ -456,11 +461,6 @@ class Rule:
    * It returns the support of the rule
    * @return Support of the rule
     """
+
     def get_support(self):
         return self.support_value
-
-
-
-
-
-
