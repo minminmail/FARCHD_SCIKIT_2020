@@ -71,6 +71,7 @@ class DataBase:
             for j in range(0, self.nlabels_array[i]):
                 self.database[i][j] = Fuzzy()
                 self.database_ini[i][j] = Fuzzy()
+
                 value = ranks[i][0] + mark * (j - 1)
                 self.database_ini[i][j].x0 = self.database[i][j].x0 = self.set_value(value, ranks[i][0], ranks[i][1])
                 value = ranks[i][0] + mark * j
@@ -85,9 +86,10 @@ class DataBase:
     def set_value(self, val, min_value, max_value):
         if min_value - 1e-4 < val < min_value + 1e-4:
             return min_value
-        if max_value < val < max_value + 1e-4:
+        elif max_value- 1e-4 < val < max_value + 1e-4:
             return max_value
-        return val
+        else:
+            return val
 
     """
      * Decode the gene representation for the GA into the DataBase one based on the Triangular Membership Functions 

@@ -723,10 +723,11 @@ class MyDataSet:
     #    * @return String[] the attribute labels for the input features
 
     def get_names(self):
-        nombres = ["" for x in range(self.ninputs)]
+        names = ["" for x in range(self.ninputs)]
         for i in range(0, self.ninputs):
-            nombres[i] = Attributes.getInputAttribute(Attributes, i).getName()
-        return nombres
+            names[i] = Attributes.getInputAttribute(Attributes, i).getName()
+            print(" attributes' names["+str(i)+"]:" + names[i])
+        return names
 
     #    * It returns the class labels
     #    * @return String[] the class labels

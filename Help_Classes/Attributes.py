@@ -34,6 +34,7 @@
 #  */
 from FarcHD_py.Help_Classes.Attribute import Attribute
 
+
 # /**
 # * <p>
 # * <b> Attributes </b>
@@ -258,7 +259,9 @@ class Attributes:
         if pos < 0 or pos >= len(self.inputAttr):
             # print("Return None for getInputAttribute !!!")
             return None
-        return self.inputAttr[pos]
+        else:
+            input_att = self.inputAttr[pos]
+            return input_att
 
     # end getInputAttribute
 
@@ -422,8 +425,8 @@ class Attributes:
 
     def getAttributeByPos(self, pos):
         lengthAtt = len(self.attributes)
-        #print("The size of attribute array is :" + str(lengthAtt))
-        #print("The pos given is :" + str(pos))
+        # print("The size of attribute array is :" + str(lengthAtt))
+        # print("The pos given is :" + str(pos))
         if pos < lengthAtt:
             attStr = self.attributes[pos]
             # print("Return :" + str(attStr))
@@ -502,9 +505,9 @@ class Attributes:
         attName = ""
         att = None
         # for inAtt in inAttNames:
-            # print("inAtt name inside inAttNames is:" + inAtt)
+        # print("inAtt name inside inAttNames is:" + inAtt)
         # for outAtt in outAttNames:
-            # print("outAtt name inside outAttNames is:" + outAtt)
+        # print("outAtt name inside outAttNames is:" + outAtt)
 
         for i in range(0, len(self.attributes)):
             att = self.attributes[i]

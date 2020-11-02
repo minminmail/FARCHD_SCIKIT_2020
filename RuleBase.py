@@ -50,13 +50,16 @@ class RuleBase:
     negative_rule_base_array = []
     data_base = DataBase()
     n_variables = None
+
     n_labels = None
     ruleWeight = None
     inferenceType = None
+
     compatibilityType = None
     names = []
     classes = []
     data_row_array = []
+
     fitness = None
     k_value = None
     default_rule = None
@@ -73,7 +76,7 @@ class RuleBase:
     #  * @param classes String[] the labels for the class attributes
     #  */
     def __init__(self):
-        print("This is the empty init of RuleBase() ......")
+        pass
 
     def init_with_five_parameters(self, data_base_pass, train_myDataset_pass, K_int, inferenceType_pass):
         self.rule_base_array = []
@@ -87,30 +90,6 @@ class RuleBase:
         self.nuncover = 0
         self.nuncover_class_array = [0 for x in range(self.train_myDataSet.get_nclasses())]
 
-
-    """
-     old Fuzzy Chi init below
-     
-     """
-
-    def set_six_parameter_init(self, data_base, inferenceType, compatibilityType, ruleWeight, names, classes):
-        print("RuleBase init begin...")
-        self.rule_base_array = []
-        self.granularity_rule_Base = []
-        # added by rui for negative rule
-        self.negative_rule_base_array = []
-        self.granularity_prune_rule_base = []
-        self.data_base = data_base
-        self.n_variables = data_base.numVariables()
-        self.n_labels = data_base.numLabels()
-        self.inferenceType = inferenceType
-        self.compatibilityType = compatibilityType
-        self.ruleWeight = ruleWeight
-        self.names = names
-        self.classes = classes
-        self.data_row_array = []
-        self.granularity_data_row_array = []
-        print("set_six_parameter_init the length of classes is" + str(len(self.classes)))
 
     # * It checks if a specific rule is already in the rule base
     # * @param r Rule the rule for comparison
@@ -140,74 +119,6 @@ class RuleBase:
             i = i + 1
         return found
 
-    """
-    
-    
-
-    # * Rule Learning Mechanism for the Chi et al.'s method
-    # * @param train myDataset the training data-set
-
-    def generation(self, train):
-        print("In generation, the size of train is :" + str(train.size()))
-        for i in range(0, train.size()):
-            rule = self.searchForBestAntecedent(train.getExample(i), train.getOutputAsIntegerWithPos(i))
-            self.data_row_array.append(rule.data_row_here)
-            rule.assingConsequent(train, self.ruleWeight)
-
-            if not (self.duplicated(rule)) and (rule.weight > 0):
-                # print("normal rule before append , the rule weight is " + str(rule.weight ) )
-
-                self.rule_base_array.append(rule)
-        print("The total data_row is " + str(len(self.data_row_array)))
-    """
-
-    # * This function obtains the best fuzzy label for each variable of the example and assigns
-    # * it to the rule
-    # * @param example double[] the input example
-    # * @param clas int the class of the input example
-    # * @return Rule the fuzzy rule with the highest membership degree with the example
-    """ 
-    def searchForBestAntecedent(self, example, clas):
-        ruleInstance = Rule()
-        ruleInstance.setTwoParameters(self.n_variables, self.compatibilityType)
-        # print("In searchForBestAntecedent ,self.n_variables is :" + str(self.n_variables))
-        ruleInstance.setClass(clas)
-        # print("In searchForBestAntecedent ,self.n_labels is :" + str(self.n_labels))
-        example_feature_array = []
-        for f_variable in range(0, self.n_variables):
-            # print("The f_variable is :"+str(f_variable))
-            # print("The example is :" + str(example))
-            example_feature_array.append(example[f_variable])
-        label_array = []
-
-        for i in range(0, self.n_variables):
-            max_value = 0.0
-            etq = -1
-            per = None
-            for j in range(0, self.n_labels):
-                # print("Inside the second loop of searchForBestAntecedent......")
-                per = self.data_base.membershipFunction(i, j, example[i])
-                if per > max_value:
-                    max_value = per
-                    etq = j
-            if max_value == 0.0:
-                # print("There was an Error while searching for the antecedent of the rule")
-                # print("Example: ")
-                for j in range(0, self.n_variables):
-                    print(example[j] + "\t")
-
-                print("Variable " + str(i))
-                exit(1)
-            # print(" The max_value is : " + str(max_value))
-            # print(" ,the j value is : " + str(j))
-            ruleInstance.antecedent[i] = self.data_base.clone  # self.data_base[i][j]
-            label_array.append(etq)
-        data_row_temp = data_row()
-        data_row_temp.set_three_parameters(clas, example_feature_array, label_array)
-        ruleInstance.data_row_here = data_row_temp
-
-        return ruleInstance
-    """
 
     # * It prints the rule base into an string
     # * @return String an string containing the rule base
@@ -224,20 +135,26 @@ class RuleBase:
         for i in range(0, len(self.rule_base_array)):
             rule = self.rule_base_array[i]
             cadena_string += str(i + 1) + ": "
+
             for j in range(0, self.n_variables):
-                if rule.antecedent[j] >= 0:
+                if rule.antecedent[j] < 0:
+                    pass
+                else:
                     break
+
             if j < self.n_variables and rule.antecedent[j] >= 0:
                 cadena_string += names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
-                ant += 1
+                ant = ant + 1
 
-            for j in range(j, self.n_variables - 1):
-                j += 1
+            for m in range(j + 1, self.n_variables - 1):
+
                 if rule.antecedent[j] >= 0:
                     cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
-                    ant += 1
+                    ant = ant + 1
+            j = j + 1
             if j < self.n_variables and rule.antecedent[j] >= 0:
-                cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j]) + ": " + classes[rule.class_value]
+                cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j]) + ": " + \
+                                 classes[rule.class_value]
                 ant += 1
 
             else:
@@ -245,13 +162,12 @@ class RuleBase:
 
             cadena_string += " CF: " + str(rule.get_confidence()) + "\n"
 
-
         cadena_string += "\n\n"
 
         cadena_string += "@supp and CF:\n\n"
         for i in range(0, len(self.rule_base_array)):
             rule = self.rule_base_array[i]
-            cadena_string += str(i+1)+": "
+            cadena_string += str(i + 1) + ": "
             cadena_string += "supp: " + str(rule.get_support()) + " AND CF: " + str(rule.get_confidence()) + "\n"
 
         # added negative rule print into file
@@ -264,7 +180,9 @@ class RuleBase:
             j = j + 1
             cadena_string += self.names[j] + " IS " + negative_rule.antecedent[j].name + ": " + str(
                 self.classes[negative_rule.class_value]) + " with Rule Weight: " + str(negative_rule.weight) + "\n"
-        print("Begin to print rules :" +"\n\n"+ cadena_string)
+        print("Begin to print rules :" + "\n\n" + cadena_string)
+
+        cadena_string = cadena_string + str(ant * 1.0 / len(self.rule_base_array)) + "\n\n"
 
         return cadena_string
 
@@ -335,8 +253,10 @@ class RuleBase:
     def frm(self, example):
 
         if self.inferenceType == 0:
+            print("run FRM_WR !")
             return self.FRM_WR(example)
         else:
+            print("run FRM_AC !")
             return self.FRM_AC(example)
 
     # * Fuzzy Reasoning Method
@@ -344,6 +264,7 @@ class RuleBase:
     # * @return int the predicted class label (id)
 
     def frm_two_parameters(self, example, selected_array_pass):
+        print("run frm_two_parameters !")
         if self.inferenceType == 0:
 
             return self.frm_wr_with_two_parameters(example, selected_array_pass)
@@ -374,6 +295,7 @@ class RuleBase:
         return class_value
 
     def frm_wr_with_two_parameters(self, example, selected_array_pass):
+        print("run frm_wr_with_two_parameters !")
         class_value = self.default_rule
         max_value = 0.0
 
@@ -453,7 +375,7 @@ class RuleBase:
             if degrees_class[i] > max_degree:
                 max_degree = degrees_class[i]
                 class_value = i
-        #print("the frm_ac_with_two_parameters return value is " + str(class_value))
+        # print("the frm_ac_with_two_parameters return value is " + str(class_value))
         return class_value
 
     def FRM_AC(self, example):
@@ -513,11 +435,11 @@ class RuleBase:
                             print("Negative rule's class_type" + str(class_type))
                             self.negative_rule_base_array.append(rule_negative)
 
-    def prepare_data_rows(self,train):
+    def prepare_data_rows(self, train):
         for i in range(0, train.size()):
             data_row_temp = DataRow()
             class_value = train.get_output_as_integer_with_pos(i)
-            example =train.get_example(i)
+            example = train.get_example(i)
             example_feature_array = []
             for f_variable in range(0, self.n_variables):
                 # print("The f_variable is :"+str(f_variable))
@@ -529,11 +451,11 @@ class RuleBase:
                 max_value = 0.0
                 etq = -1
                 per = None
-                n_labels= self.data_base.num_labels(m)
+                n_labels = self.data_base.num_labels(m)
                 print("n_labels: " + str(n_labels))
                 for n in range(0, n_labels):
                     # print("Inside the second loop of searchForBestAntecedent......")
-                    print("example["+str(m)+")]: " + str(example[m]))
+                    print("example[" + str(m) + ")]: " + str(example[m]))
                     per = self.data_base.membership_function(m, n, example[m])
                     print("per: " + str(per))
                     if per > max_value:
@@ -554,7 +476,6 @@ class RuleBase:
 
             data_row_temp.set_three_parameters(class_value, example_feature_array, label_array)
             self.data_row_array.append(data_row_temp)
-
 
     def get_class_value_array(self, train):
         class_value_array = []
@@ -663,6 +584,8 @@ class RuleBase:
     def get_size(self):
         return len(self.rule_base_array)
 
+
+
     """
    * It removes the rule stored in the given position
    * @param pos Position where the rule we want to remove is
@@ -745,7 +668,7 @@ class RuleBase:
                 nhits += 1
             if prediction < 0:
                 self.nuncover += 1
-                self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)]
+                self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)]=self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)]+1
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
 
@@ -835,3 +758,19 @@ class RuleBase:
 
     def get(self, pos):
         return self.rule_base_array[pos]
+
+    """  
+    /**
+   * Maximization
+   * @param a first number
+   * @param b second number
+   * @return boolean true if a is greater than b
+   */
+   
+   """
+
+    def better(a, b):
+        if a > b:
+            return True
+        else:
+            return False

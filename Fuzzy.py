@@ -42,13 +42,10 @@ class Fuzzy:
     x3 = None
     y = None
     name = ""
-    label = None
 
     def __init__(self):
-        x0 = 0.0
-        x1 = 0.0
-        x3 = 0.0
-        # print("init of Fuzzy Class ")
+        pass
+
 
     # * If fuzzyfies a crisp value
     # * @param X double The crips value
@@ -86,7 +83,6 @@ class Fuzzy:
         d.x3 = self.x3
         d.y = self.y
         d.name = self.name
-        d.label = self.label
         return d
     """
 
