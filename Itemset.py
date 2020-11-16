@@ -1,3 +1,5 @@
+from __future__ import division
+
 # /**
 #  * <p>Title: Itemset</p>
 #  * <p>Description: This class contains the representation of a itemset</p>
@@ -7,10 +9,12 @@
 #  * @version 1.0
 #  * @since JDK1.6
 #  */
+from decimal import Decimal
 
 from FarcHD_py.Item import Item
 from FarcHD_py.MyDataSet import MyDataSet
 from FarcHD_py.DataBase import DataBase
+
 
 
 class Itemset:
@@ -131,30 +135,21 @@ class Itemset:
 
     def calculate_supports(self, dataBase, train):
 
-        degree: float = None
-        self.support = 0.0
-        self.support_rule = 0.0
+        degree = Decimal(0.0)
+        self.support = Decimal(0.0)
+        self.support_rule = Decimal(0.0)
         for i in range(0, train.size()):
-            degree = self.degree(dataBase, train.get_example(i))
+            degree = self.degree_product(dataBase, train.get_example(i))
             self.support = self.support + degree
             if train.get_output_as_integer_with_pos(i) == self.class_value:
                 self.support_rule = self.support_rule + degree
         self.support = self.support / train.get_ndata()
         self.support_rule = self.support_rule / train.get_ndata()
 
-    """
-        * Calculate the degree of the given example inside the given data-set.
-     * @param dataBase Given training dataset useful information to calculate the degree.
-     * @param ejemplo Given example to calculate its degree.
-     * @return
-    """
-
-    def degree(self, dataBase, ejemplo):
-        return self.degree_product(dataBase, ejemplo)
 
     def degree_product(self, dataBase, example):
 
-        degree = 1.0
+        degree = Decimal(1.0)
         for i in range(0, len(self.itemset)):
             if degree > 0.0:
                 item = self.itemset[i]

@@ -1,4 +1,4 @@
-
+from decimal import Decimal
 
 import numpy as np
 from numpy import array
@@ -21,7 +21,7 @@ class DataBase:
 
     # Default constructor
     def __init__(self):
-        print("init DataBase class")
+        pass
 
 
         # Constructor with parameters. It performs a homegeneous partition of the input space for
@@ -52,7 +52,7 @@ class DataBase:
 
         for i in range(0, self.n_variables):
 
-            rank = abs(ranks[i][1] - ranks[i][0])
+            rank = float(abs(float(ranks[i][1]) - float(ranks[i][0])))
             self.varreal_array[i] = False
 
             if train_my_dataset.is_nominal(i):
@@ -66,17 +66,17 @@ class DataBase:
             self.database[i] = [Fuzzy() for x in range(self.nlabels_array[i])]
             self.database_ini[i] = [Fuzzy() for x in range(self.nlabels_array[i])]
 
-            mark = rank / (self.nlabels_array[i] - 1.0)
+            mark = float(rank /float(self.nlabels_array[i] - 1.0))
 
             for j in range(0, self.nlabels_array[i]):
                 self.database[i][j] = Fuzzy()
                 self.database_ini[i][j] = Fuzzy()
 
-                value = ranks[i][0] + mark * (j - 1)
+                value = float(ranks[i][0]) + mark * (j - 1)
                 self.database_ini[i][j].x0 = self.database[i][j].x0 = self.set_value(value, ranks[i][0], ranks[i][1])
-                value = ranks[i][0] + mark * j
+                value = float(ranks[i][0])+ mark * j
                 self.database_ini[i][j].x1 = self.database[i][j].x1 = self.set_value(value, ranks[i][0], ranks[i][1])
-                value = ranks[i][0] + mark * (j + 1)
+                value = float(ranks[i][0]) + mark * (j + 1)
                 self.database_ini[i][j].x3 = self.database[i][j].x3 = self.set_value(value, ranks[i][0], ranks[i][1])
                 self.database_ini[i][j].y = self.database[i][j].y = 1.0
                 self.database[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
@@ -85,11 +85,11 @@ class DataBase:
     # 2020-08-14
     def set_value(self, val, min_value, max_value):
         if min_value - 1e-4 < val < min_value + 1e-4:
-            return min_value
-        elif max_value- 1e-4 < val < max_value + 1e-4:
-            return max_value
+            return float(min_value)
+        elif max_value - 1e-4 < val < max_value + 1e-4:
+            return float(max_value)
         else:
-            return val
+            return float(val)
 
     """
      * Decode the gene representation for the GA into the DataBase one based on the Triangular Membership Functions 
@@ -104,29 +104,6 @@ class DataBase:
         displacement = 0.0
         pos = 0
 
-        """
-          for (i=0; i < n_variables; i++) {
-		  if (varReal[i]) {
-			  for (j=0; j < this.nLabels[i]; j++, pos++) {
-				  if (j == 0)  
-				  displacement = (gene[pos] - 0.5) * (this.dataBaseIni[i][j+1].x1 - this.dataBaseIni[i][j].x1);
-				  else if (j == (this.nLabels[i]-1))  
-				  displacement = (gene[pos] - 0.5) * (this.dataBaseIni[i][j].x1 - this.dataBaseIni[i][j-1].x1);
-				  else {
-					  if ((gene[pos] - 0.5) < 0.0)  
-					  displacement = (gene[pos] - 0.5) * (this.dataBaseIni[i][j].x1 - this.dataBaseIni[i][j-1].x1);
-					  else  
-					  displacement = (gene[pos] - 0.5) * (this.dataBaseIni[i][j+1].x1 - this.dataBaseIni[i][j].x1);
-				  }
-				  
-				  this.dataBase[i][j].x0 = this.dataBaseIni[i][j].x0 + displacement;
-				  this.dataBase[i][j].x1 = this.dataBaseIni[i][j].x1 + displacement;
-				  this.dataBase[i][j].x3 = this.dataBaseIni[i][j].x3 + displacement;
-			  }
-		  }
-	  }
-        
-        """
         for i in range(0, self.n_variables):
             if self.varreal_array[i]:
                 for j in range(0, self.nlabels_array[i]):
@@ -147,7 +124,7 @@ class DataBase:
                     self.database[i][j].x0 = self.database_ini[i][j].x0 + displacement
                     self.database[i][j].x1 = self.database_ini[i][j].x1 + displacement
                     self.database[i][j].x3 = self.database_ini[i][j].x3 + displacement
-                    j += 1
+
                     pos += 1
 
     """
@@ -217,38 +194,7 @@ class DataBase:
         self.cadena += "\n"
         return self.cadena
 
-    """
 
-    # '''
-    #      * It writes the Data Base into an output file
-    #      * @param filename String the name of the output file
-    #      w+ to save all the database
-    # '''
-    def writeFile(self, filename, who_call, zone_number):
-
-        if who_call == "1":
-            outputString = "normal rule area" + "\n" + "\n" + self.printString()
-            file = open(filename, "w+")
-            file.write(outputString)
-            file.close()
-        else:
-            with open(filename, 'a') as file_append:
-                outputString = "granularity rule of negative zone area " + str(zone_number)
-                outputString = outputString + "\n" + "\n" + self.printString()
-                file_append.write(outputString)
-                file_append.close()
-                
-    """
-
-    def set_value(self, val_pass: float, min_value: float, max_value: float) -> object:
-        """
-        :rtype: float
-        """
-        if min_value - 1e-4 < val_pass < min_value + 1e-4:
-            return min_value
-        if max_value - 1e-4 < val_pass < max_value + 1e-4:
-            return max_value
-        return val_pass
 
     def num_labels(self, index_value):
 
@@ -263,6 +209,7 @@ class DataBase:
     def get_nlabels_array(self):
 
         return self.nlabels_array
+
     """
    * Returns the number of total real labels held by the input attributes.
    * @return The number of real labels
@@ -277,16 +224,12 @@ class DataBase:
                 count = count + self.nlabels_array[i]
         return count
 
-
-
-
     def matching(self, variable, label, value):
         if (variable < 0) or (label < 0):
             # do not care
             return 1
         else:
-            return self.database[variable][label].fuzzify(value)
-
+            return Decimal(self.database[variable][label].fuzzify(value))
 
     """
      * Return a String representation of the Triangular Membership Functions of the variable and its label given as arguments. 
@@ -323,8 +266,9 @@ class DataBase:
             information += "\n\n@Number of Labels in Variable " + str(i + 1) + ": " + str(self.nlabels_array[i])
             information += "\n" + self.names[i] + ":\n"
             for j in range(0, self.nlabels_array[i]):
-                information += self.database[i][j].name + ": (" + str(self.database[i][j].x0) + "," + str(self.database[i][
-                    j].x1) + "," + str(self.database[i][j].x3) + ")\n"
+                information += self.database[i][j].name + ": (" + str(self.database[i][j].x0) + "," + str(
+                    self.database[i][
+                        j].x1) + "," + str(self.database[i][j].x3) + ")\n"
 
         return information
 
@@ -332,14 +276,10 @@ class DataBase:
    * It stores the data base in a given file
    * @param filename Name for the database file
     """
+
     def save_file(self, filename):
-        string_out = ""
+
         string_out = self.print_string()
         file = open(filename, "w+")
         file.write(string_out)
         file.close()
-
-
-
-
-

@@ -376,3 +376,20 @@ class LoadFiles:
         print(self.y)
 
         return self.y
+
+    def get_test_x(self):
+
+        self.X = self.test_mydataset.get_X()
+        # change into ndarray type
+        self.X = np.array(self.X)
+        print(self.X)
+
+        return self.X
+
+    def get_test_y(self):
+
+        self.y = self.test_mydataset.get_y()
+        self.y = np.array(self.y)
+        print(self.y)
+
+        return self.y

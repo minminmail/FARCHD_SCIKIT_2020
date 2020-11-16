@@ -1,31 +1,5 @@
-# /***********************************************************************
-#
-# 	This file is part of KEEL-software, the Data Mining tool for regression,
-# 	classification, clustering, pattern mining and so on.
-#
-# 	Copyright (C) 2004-2010
-#
-# 	F. Herrera (herrera@decsai.ugr.es)
-#     L. S谩nchez (luciano@uniovi.es)
-#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-#     S. Garc铆a (sglopez@ujaen.es)
-#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
-#     J. Luengo (julianlm@decsai.ugr.es)
-#
-# 	This program is free software: you can redistribute it and/or modify
-# 	it under the terms of the GNU General Public License as published by
-# 	the Free Software Foundation, either version 3 of the License, or
-# 	(at your option) any later version.
-#
-# 	This program is distributed in the hope that it will be useful,
-# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
-# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# 	GNU General Public License for more details.
-#
-# 	You should have received a copy of the GNU General Public License
-# 	along with this program.  If not, see http://www.gnu.org/licenses/
-#
-# **********************************************************************/
+from decimal import Decimal
+
 from FarcHD_py.Fuzzy import Fuzzy
 from FarcHD_py.DataBase import DataBase
 from FarcHD_py.Rule import Rule
@@ -90,7 +64,6 @@ class RuleBase:
         self.nuncover = 0
         self.nuncover_class_array = [0 for x in range(self.train_myDataSet.get_nclasses())]
 
-
     # * It checks if a specific rule is already in the rule base
     # * @param r Rule the rule for comparison
     # * @return boolean true if the rule is already in the rule base, false in other case
@@ -118,7 +91,6 @@ class RuleBase:
             found = self.negative_rule_base_array[i].comparison(rule)
             i = i + 1
         return found
-
 
     # * It prints the rule base into an string
     # * @return String an string containing the rule base
@@ -253,10 +225,10 @@ class RuleBase:
     def frm(self, example):
 
         if self.inferenceType == 0:
-            print("run FRM_WR !")
+            # print("run FRM_WR !")
             return self.FRM_WR(example)
         else:
-            print("run FRM_AC !")
+            # print("run FRM_AC !")
             return self.FRM_AC(example)
 
     # * Fuzzy Reasoning Method
@@ -264,7 +236,7 @@ class RuleBase:
     # * @return int the predicted class label (id)
 
     def frm_two_parameters(self, example, selected_array_pass):
-        print("run frm_two_parameters !")
+        # print("run frm_two_parameters !")
         if self.inferenceType == 0:
 
             return self.frm_wr_with_two_parameters(example, selected_array_pass)
@@ -360,17 +332,17 @@ class RuleBase:
 
     def frm_ac_with_two_parameters(self, example, selected_array):
         class_value = self.default_rule
-        degree = 0.0
-        max_degree = 0.0
+        degree = Decimal(0.0)
+        max_degree = Decimal(0.0)
         degrees_class = [0.0 for x in range(self.train_myDataSet.get_nclasses())]
         for i in range(0, self.train_myDataSet.get_nclasses()):
-            degrees_class[i] = 0.0
+            degrees_class[i] = Decimal(0.0)
         for i in range(0, len(self.rule_base_array)):
             if selected_array[i] > 0:
                 rule = self.rule_base_array[i]
                 degree = rule.matching(example)
-                degrees_class[rule.get_class()] += degree
-        max_degree = 0.0
+                degrees_class[rule.get_class()] += Decimal(degree)
+        max_degree = Decimal(0.0)
         for i in range(0, self.train_myDataSet.get_nclasses()):
             if degrees_class[i] > max_degree:
                 max_degree = degrees_class[i]
@@ -380,13 +352,13 @@ class RuleBase:
 
     def FRM_AC(self, example):
 
-        degree = 0.0
-        max_degree = 0.0
+        degree = Decimal(0.0)
+        max_degree = Decimal(0.0)
         class_value = self.default_rule
 
         degree_class_array = [0.0 for x in range(self.train_myDataSet.get_nclasses())]
         for i in range(0, self.train_myDataSet.get_nclasses()):
-            degree_class_array[i] = 0.0
+            degree_class_array[i] = Decimal(0.0)
 
         for i in range(0, len(self.rule_base_array)):
             rule = self.rule_base_array[i]
@@ -584,8 +556,6 @@ class RuleBase:
     def get_size(self):
         return len(self.rule_base_array)
 
-
-
     """
    * It removes the rule stored in the given position
    * @param pos Position where the rule we want to remove is
@@ -663,12 +633,12 @@ class RuleBase:
             self.nuncover_class_array[j] = 0
 
         for j in range(0, self.train_myDataSet.size()):
-            prediction = self.FRM(self.train_myDataSet.get_example(j))
+            prediction = self.frm(self.train_myDataSet.get_example(j))
             if self.train_myDataSet.get_output_as_integer_with_pos(j) == prediction:
                 nhits += 1
             if prediction < 0:
                 self.nuncover += 1
-                self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)]=self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)]+1
+                self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)] +=  1
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
 

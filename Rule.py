@@ -1,31 +1,5 @@
-# /***********************************************************************
-#
-# 	This file is part of KEEL-software, the Data Mining tool for regression,
-# 	classification, clustering, pattern mining and so on.
-#
-# 	Copyright (C) 2004-2010
-#
-# 	F. Herrera (herrera@decsai.ugr.es)
-#     L. S谩nchez (luciano@uniovi.es)
-#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-#     S. Garc铆a (sglopez@ujaen.es)
-#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
-#     J. Luengo (julianlm@decsai.ugr.es)
-#
-# 	This program is free software: you can redistribute it and/or modify
-# 	it under the terms of the GNU General Public License as published by
-# 	the Free Software Foundation, either version 3 of the License, or
-# 	(at your option) any later version.
-#
-# 	This program is distributed in the hope that it will be useful,
-# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
-# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# 	GNU General Public License for more details.
-#
-# 	You should have received a copy of the GNU General Public License
-# 	along with this program.  If not, see http://www.gnu.org/licenses/
-#
-# **********************************************************************/
+from decimal import Decimal
+
 from FarcHD_py.Fuzzy import Fuzzy
 from FarcHD_py.data_row import DataRow
 
@@ -44,10 +18,18 @@ class Rule:
       DataBase dataBase;
 
     """
-    antecedent = None
-    class_value = None
-    nants = 0
-    wracc = 0.0
+
+    # jave version has the below variables
+    antecedent = []
+    class_value = Decimal(0)
+    nants = Decimal(0)
+    wracc = Decimal(0.0)
+    # added at 2020/06/25 to check positive rule confident
+    confident_value = Decimal(0.0)
+    # added at 2020/06/30 to check positive rule support
+    support_value = Decimal(0.0)
+    data_base = None
+
     weight = None
     compatibilityType = None
 
@@ -56,13 +38,9 @@ class Rule:
     rule_priority = None
     data_row_here = None
     granularity_sub_zone = None
-    # added at 2020/06/25 to check positive rule confident
-    confident_value = None
-    # added at 2020/06/30 to check positive rule support
-    support_value = None
+
     # In this fuzzy zone, the confident is supp(xUY)/supp(x)
     zone_confident = None
-    data_base = None
 
     def __init__(self, data_base_pass):
 
@@ -80,26 +58,68 @@ class Rule:
         # print("__init__ of Rule")
         self.data_row_here = DataRow()
 
-    # Default constructor
+    """
+    * Clone
+    * @return A copy of the rule
+    """
 
-    # * Constructor with parameters
-    # * @param n_variables int
-    # * @param compatibilityType int
+    def clone(self):
+        rule = Rule(self.data_base)
+        rule.antecedent = [0 for x in range(len(self.antecedent))]
+        for i in range(0, len(self.antecedent)):
+            rule.antecedent[i] = self.antecedent[i]
+            rule.class_value = self.class_value
+            rule.data_base = self.data_base
+            rule.confident_value = self.confident_value
+            rule.support_value = self.support_value
+            rule.nAnts = self.nants
+            rule.wracc = self.wracc
 
-    def setTwoParameters(self, n_variables, compatibilityType):
-        # print("In rule calss , setTwoParameters method, the n_variables = " + str(n_variables))
-        self.antecedent = [Fuzzy() for x in range(n_variables)]
-        self.compatibilityType = compatibilityType
+        return rule
 
-        # * It assigns the class of the rule
-        # * @param clas int
+    """
+    * It sets the antecedent of the rule
+    * @param antecedent Antecedent of the rule
+    """
 
-    def setClass(self, clas):
-        self.class_value = clas
+    def assign_antecedente(self, antecedent_array):
+        self.nants = 0
+        for i in range(0, len(antecedent_array)):
+            self.antecedent[i] = antecedent_array[i]
+            if self.antecedent[i] > -1:
+                self.nants += 1
 
-    # added by rui for negative rule
-    def get_class(self):
-        return self.class_value
+    def degree_product(self, example):
+        degree = Decimal(1.0)
+        for i in range(0, len(self.antecedent)):
+            if degree > 0.0:
+                # for item in example:
+                # print("item in example is  :" + str(item))
+
+                # print("i is :"+ str(i)+" len(self.antecedent) : " + str(len(self.antecedent))+"len(example) : "+ str(len(example)))
+                degree *= self.data_base.matching(i, self.antecedent[i], example[i])
+            else:
+                break
+        return degree * self.confident_value
+
+    """
+    * Function to check if a given example matchs with the rule (the rule correctly classifies it)
+    * @param example  Example to be classified
+    * @return 0.0 = doesn't match, >0.0 = does.
+    """
+
+    def matching(self, example):
+        return self.degree_product(example)
+
+    """
+
+    /**
+       * It sets the confidence of the rule
+       * @param conf Confidence to be set
+    """
+
+    def set_confidence(self, confident_value):
+        self.confident_value = confident_value
 
     """
        * It sets the consequent of the rule
@@ -110,34 +130,106 @@ class Rule:
         self.class_value = class_value
 
     """
-      
-    /**
-       * It sets the confidence of the rule
-       * @param conf Confidence to be set
+    * It sets the support of the rule
+    * @param supp  Support to be set
     """
 
-    def set_confidence(self, confident_value):
-        self.confident_value = confident_value
+    def set_support(self, supp):
+        self.support_value = supp
+
+    """
+   * It returns the Confidence of the rule
+   * @return Confidence of the rule
+    """
+
+    def get_confidence(self):
+        return self.confident_value
+
+    """
+       * It returns the Wracc of the rule
+       * @return Wracc of the rule
+    """
+
+    def get_wracc(self):
+        return self.wracc
+
+    """
+
+   * It returns the support of the rule
+   * @return Support of the rule
+    """
+
+    def get_support(self):
+        return self.support_value
 
     """ 
-
-    # * It computes the compatibility of the rule with an input example
-    # * @param example double[] The input example
-    # * @return double the degree of compatibility
-    
-
-    def compatibility(self, example):
-        if self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM:
-            # print("self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
-            return self.minimumCompatibility(example)
-        # arrived here
-        else:
-            # print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM"+", self.compatibilityType = "+ str(
-            # self.compatibilityType))
-            # here is the algorithm arrives
-            # print("in compatibility before the productCompatibility method:  ")
-            return self.productCompatibility(example)
+    /**
+    * Calculate Wracc for this rule.
+    * The value of the measure Wracc for this rule will be stored on the attribute "wracc".
+    * @param train Training dataset
+    * @param exampleWeight Weights of the patterns
     """
+
+    def calculate_wracc(self, train_mydataset_pass, example_weight_array):
+        i = 0
+        n_c = Decimal(0.0)
+        degree = Decimal(0.0)
+        exmple_weight = None
+
+        n_a = n_ac = Decimal(0.0)
+
+        for i in range(0, train_mydataset_pass.size()):
+            exmple_weight = example_weight_array[i]
+            if exmple_weight.is_active():
+                degree = self.matching(train_mydataset_pass.get_example(i))
+                if degree > 0.0:
+                    degree *= Decimal(exmple_weight.get_weight())
+                    n_a += degree
+
+                    if train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value:
+                        n_ac += degree
+                        n_c += Decimal(exmple_weight.get_weight())
+
+
+                elif train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value:
+                    n_c += Decimal(exmple_weight.get_weight())
+
+        if (n_a < 0.0000000001) or (n_ac < 0.0000000001) or (n_c < 0.0000000001):
+            self.wracc = Decimal(-1.0)
+        else:
+            self.wracc = (n_ac / n_c) * ((n_ac / n_a) - Decimal(train_mydataset_pass.frecuent_class(self.class_value)))
+
+    """
+
+     * Reduces the weight of the examples that match with the rule (the rule correctly classifies them)
+     * @param train training examples given to match them to the rule.
+     * @param exampleWeight Each example weight to be updated.
+     * @return Number of examples that have become not active after the weight reduction.
+     */
+
+    """
+
+    def reduce_weight(self, train_mydataset_pass, example_weight_array):
+        count = 0
+        for i in range(0, train_mydataset_pass.size()):
+            example_weight = example_weight_array[i]
+            if example_weight.is_active():
+                if self.matching(train_mydataset_pass.get_example(i)) > 0.0:
+                    example_weight.inc_count()
+                    if not example_weight.is_active() and (
+                            train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value):
+                        count = count + 1
+        return count
+
+
+    # not exist in the java version below
+
+    def setClass(self, clas):
+        self.class_value = clas
+
+    # added by rui for negative rule
+    def get_class(self):
+        return self.class_value
 
     # * Operator T-min
     # * @param example double[] The input example
@@ -294,14 +386,11 @@ class Rule:
                 all_number_of_the_class = all_number_of_the_class + 1
             meet_antecedent = 0
 
-
-
             for j in range(0, len(self.data_row_here.label_values)):
-                print("******self.antecedent[j]  :" + str(self.antecedent[j]))
-                print("self.self.data_row_here.label_values[j]  :" + str(self.data_row_here.label_values[j])+"*******")
+                # print("******self.antecedent[j]  :" + str(self.antecedent[j]))
+                # print("self.self.data_row_here.label_values[j]  :" + str(self.data_row_here.label_values[j])+"*******")
 
-                if self.antecedent[j] == self.data_row_here.label_values[
-                    j]:  # meet the rule antecedent conditions
+                if self.antecedent[j] == self.data_row_here.label_values[j]:  # meet the rule antecedent conditions
                     meet_antecedent = meet_antecedent + 1
             if len(self.antecedent) == meet_antecedent:
                 supp_x = supp_x + 1
@@ -318,149 +407,4 @@ class Rule:
         if supp_x != 0:
             self.zone_confident = round((supp_xy / supp_x), 4)
 
-    """
-    * Function to check if a given example matchs with the rule (the rule correctly classifies it)
-    * @param example  Example to be classified
-    * @return 0.0 = doesn't match, >0.0 = does.
-    """
 
-    def matching(self, example):
-        return self.degree_product(example)
-
-    def degree_product(self, example):
-        degree = 1.0
-        for i in range(0, len(self.antecedent)):
-            if degree > 0.0:
-                # for item in example:
-                # print("item in example is  :" + str(item))
-
-                # print("i is :"+ str(i)+" len(self.antecedent) : " + str(len(self.antecedent))+"len(example) : "+ str(len(example)))
-                degree *= self.data_base.matching(i, self.antecedent[i], example[i])
-        return degree * self.confident_value
-
-    """
-    * Clone
-    * @return A copy of the rule
-    """
-
-    def clone(self):
-        rule = Rule(self.data_base)
-        rule.antecedent = [0 for x in range(len(self.antecedent))]
-        for i in range(0, len(self.antecedent)):
-            rule.antecedent[i] = self.antecedent[i]
-            rule.class_value = self.class_value
-            rule.data_base = self.data_base
-            rule.confident_value = self.confident_value
-            rule.support_value = self.support_value
-            rule.nAnts = self.nants
-            rule.wracc = self.wracc
-
-        return rule
-
-    """
-       * It returns the Wracc of the rule
-       * @return Wracc of the rule
-    """
-
-    def get_wracc(self):
-        return self.wracc
-
-    """ 
-    /**
-    * Calculate Wracc for this rule.
-    * The value of the measure Wracc for this rule will be stored on the attribute "wracc".
-    * @param train Training dataset
-    * @param exampleWeight Weights of the patterns
-    """
-
-    def calculate_wracc(self, train_mydataset_pass, example_weight_array):
-        i = 0
-        n_a = 0
-        n_ac = 0.0
-        n_c = 0.0
-        degree = 0.0
-        exmple_weight = None
-
-        n_a = n_ac = 0.0
-        n_c = 0.0
-
-        for i in range(0, train_mydataset_pass.size()):
-            exmple_weight = example_weight_array[i]
-            if exmple_weight.is_active():
-                degree = self.matching(train_mydataset_pass.get_example(i))
-                if degree > 0.0:
-                    degree *= exmple_weight.get_weight()
-                    n_a += degree
-
-                    if train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value:
-                        n_ac += degree
-                        n_c += exmple_weight.get_weight()
-
-
-                elif train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value:
-                    n_c += exmple_weight.get_weight()
-
-        if (n_a < 0.0000000001) or (n_ac < 0.0000000001) or (n_c < 0.0000000001):
-            self.wracc = -1.0
-        else:
-            self.wracc = (n_ac / n_c) * ((n_ac / n_a) - train_mydataset_pass.frecuent_class(self.class_value))
-
-    """
-
-     * Reduces the weight of the examples that match with the rule (the rule correctly classifies them)
-     * @param train training examples given to match them to the rule.
-     * @param exampleWeight Each example weight to be updated.
-     * @return Number of examples that have become not active after the weight reduction.
-     */
-     
-    """
-
-    def reduce_weight(self, train_mydataset_pass, example_weight_array):
-        count = 0
-        example_weight = None
-        for i in range(0, train_mydataset_pass.size()):
-            example_weight = example_weight_array[i]
-            if example_weight.is_active():
-                if self.matching(train_mydataset_pass.get_example(i)) > 0.0:
-                    example_weight.inc_count()
-                    if not example_weight.is_active() and (
-                            train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value):
-                        count = count + 1
-        return count
-
-    """
-    * It sets the antecedent of the rule
-    * @param antecedent Antecedent of the rule
-    """
-
-    def assign_antecedente(self, antecedent_array):
-        self.nants = 0
-        for i in range(0, len(antecedent_array)):
-            self.antecedent[i] = antecedent_array[i]
-            if self.antecedent[i] > -1:
-                self.nants += 1
-
-    """
-    * It sets the support of the rule
-    * @param supp  Support to be set
-    """
-
-    def set_support(self, supp):
-        self.support_value = supp
-
-    """
-   * It returns the Confidence of the rule
-   * @return Confidence of the rule
-    """
-
-    def get_confidence(self):
-        return self.confident_value
-
-    """
-         
-   * It returns the support of the rule
-   * @return Support of the rule
-    """
-
-    def get_support(self):
-        return self.support_value

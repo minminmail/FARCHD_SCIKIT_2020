@@ -26,6 +26,8 @@
 #
 #
 # ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **
+from decimal import Decimal
+
 from FarcHD_py.Item import Item
 from FarcHD_py.Itemset import Itemset
 from FarcHD_py.RuleBase import RuleBase
@@ -49,8 +51,8 @@ class Apriori:
     # ArrayList < Itemset > l2_array;
     l2_array = []
     # double
-    minsup = None
-    minconf = None
+    minsup = Decimal(0)
+    minconf = Decimal(0)
 
     minSupps_array = []  # double[]
     # int
@@ -69,7 +71,7 @@ class Apriori:
     #  *
 
     def __init__(self):
-        print("__init__ of Apriori")
+        pass
 
     # / **
     # * Builder
@@ -91,15 +93,18 @@ class Apriori:
         self.nvariables = self.train.get_ninputs()
 
         self.l2_array = []
+
         self.minSupps_array = np.empty(self.nclasses, dtype=float)
+
         for i in range(0, self.nclasses):
-            self.minSupps_array[i] = self.train.get_frequent_class(i) * minsup
+            self.minSupps_array[i] = Decimal(self.train.get_frequent_class(i) * minsup)
 
     # / **
     # * Generate the rule set (Stage 1 and 2)
     # * /
 
     def generate_rb(self):
+        self.rule_stage1 = 0
         # int
 
         self.rule_base_class = RuleBase()
@@ -107,7 +112,7 @@ class Apriori:
                                                        self.rule_base.get_inference_type())
 
         for i in range(0, self.nclasses):
-            self.minsup = self.minSupps_array[i]
+            self.minsup = Decimal(self.minSupps_array[i])
             self.generate_l2_array(i)
             self.generate_large(self.l2_array, i)
 
@@ -144,7 +149,7 @@ class Apriori:
     def has_uncover_class(self, class_pass):
         # int
         uncover = None
-        degree = None
+        degree = Decimal(0)
         itemset = None
         stop = None
 
@@ -221,7 +226,7 @@ class Apriori:
         i = None
         uncover = None
         itemset = None
-        confidence = None
+        confidence = Decimal(0)
         for i in range(len(lk) - 1, 0, -1):
             itemset = lk[i]
 

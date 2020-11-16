@@ -44,8 +44,6 @@ import numpy as np
 
 
 class Main:
-
-
     # * Main Program
     # * @param args It contains the name of the configuration file
     # * Format:
@@ -65,14 +63,17 @@ class Main:
         np.random.seed(0)
 
         lf = LoadFiles()
-        lf.parse_configuration_file("iris", "config0s0.txt")
+        lf.parse_configuration_file("iris", "config8s0.txt")
         X = lf.get_X()
         y = lf.get_y()
         indices = np.random.permutation(len(X))
-        iris_X_test = X[indices[-10:]]
-        iris_y_test = y[indices[-10:]]
+
+        iris_X_test = lf.get_test_x()
+        iris_y_test = lf.get_test_y()
+
         farchd_classifier = FarcHDClassifier(lf)
-        farchd_classifier.fit(X,y)
+
+        farchd_classifier.fit(X, y)
         test_x = [4.6, 3.1, 1.5, 0.2]
         farchd_classifier.predict(iris_X_test)
-        farchd_classifier.score(iris_X_test,iris_y_test)
+        farchd_classifier.score(iris_X_test, iris_y_test)

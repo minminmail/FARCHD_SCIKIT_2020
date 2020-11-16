@@ -6,6 +6,8 @@
 #  * @version 1.1
 #  * @since JDK1.5
 # '''
+from decimal import Decimal
+
 from FarcHD_py.Help_Classes.InstanceSet import InstanceSet
 from FarcHD_py.Help_Classes.Attributes import Attributes
 from FarcHD_py.Help_Classes.Attribute import Attribute
@@ -602,7 +604,7 @@ class MyDataSet:
     def compute_instances_per_class(self):
         # print("compute_instances_per_class begin..., self.nclasses = " + str(self.nclasses))
         self.instances_cl = [0 for x in range(self.nclasses)]
-        self.frequent_class_array = [0.0 for x in range(self.nclasses)]
+        self.frequent_class_array = [Decimal(0.0) for x in range(self.nclasses)]
         data_num = self.get_ndata()
         # print("dataNum = " + str(dataNum))
 

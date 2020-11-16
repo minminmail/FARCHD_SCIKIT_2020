@@ -40,12 +40,15 @@
 #  * @author Albert Orriols Puig
 #  * @version keel0.1
 #  */
-
+import decimal
 
 from FarcHD_py.Help_Classes.Attribute import Attribute
 from FarcHD_py.Help_Classes.Attributes import Attributes
 from FarcHD_py.Help_Classes.InstanceParser import InstanceParser
 from FarcHD_py.Help_Classes.ErrorInfo import ErrorInfo
+from decimal import *
+
+decimal.setcontext(decimal.Context(prec=34))
 
 import math
 
@@ -113,6 +116,7 @@ class Instance:
     def __init__(self):
         # print("__init__ of Instance begin......")
         self.__nominalValues = []
+
 
     def setThreeParameters(self, defStr, _isTrain, instanceNum):
         # print("setThreeParameters begin...... ")

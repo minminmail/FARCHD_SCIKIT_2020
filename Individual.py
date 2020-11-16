@@ -57,7 +57,7 @@ class Individual:
     def init_with_parameter(self, rule_base, database, w1_value):
         self.rule_base = rule_base
         self.w1_value = w1_value
-        self.fitness = float('-inf')
+        self.fitness = -np.inf
         self.accuracy = 0.0
         self.n_e = 0
         self.ngenes = database.get_nlabels_real()
@@ -219,16 +219,18 @@ class Individual:
             n_value = int((self.gene_array[i] / incremento + 0.5))
 
             for j in range(bits_gen - 1, 0, -1):
-                aux_str_array[j] = str('0' + str(n_value & 1))
+                aux_str_array[j] = str(n_value & 1)
                 n_value >>= 1
 
             last = '0'
             for j in range(0, bits_gen):
 
                 if aux_str_array[j] != last:
-                    indiv1_str_array[pos] = str('0' + str(1))
+                    # in java (char) ('0' + 1)
+                    indiv1_str_array[pos] = '1'
                 else:
-                    indiv1_str_array[pos] = str('0' + str(0))
+                    # (char) ('0' + 0)
+                    indiv1_str_array[pos] = '0'
                 last = aux_str_array[j]
                 pos += 1
         pos = 0
@@ -240,16 +242,16 @@ class Individual:
                 print("Exception happened, the incremento is 0 !")
 
             for j in range(bits_gen - 1, 0, -1):
-                aux_str_array[j] = str('0' + str(n_value & 1))
+                aux_str_array[j] = str(n_value & 1)
                 n_value >>= 1
 
             last = '0'
             for j in range(0, bits_gen):
 
                 if aux_str_array[j] != last:
-                    indiv2_str_array[pos] = str('0' + str(1))
+                    indiv2_str_array[pos] = '1'
                 else:
-                    indiv2_str_array[pos] = str('0' + str(0))
+                    indiv2_str_array[pos] = '0'
                 last = aux_str_array[j]
 
                 pos += 1
@@ -303,7 +305,7 @@ class Individual:
                 position_array[dist] = i
                 dist += 1
 
-        npos = int(abs(dist / 2))
+        npos = int(dist / 2)
 
         for i in range(0, npos):
             random_value = random.randint(0, dist-1)

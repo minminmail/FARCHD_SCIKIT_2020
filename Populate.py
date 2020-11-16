@@ -1,38 +1,8 @@
-"""
-/***********************************************************************
-
-	This file is part of KEEL-software, the Data Mining tool for regression,
-	classification, clustering, pattern mining and so on.
-
-	Copyright (C) 2004-2010
-
-	F. Herrera (herrera@decsai.ugr.es)
-    L. Sánchez (luciano@uniovi.es)
-    J. Alcalá-Fdez (jalcala@decsai.ugr.es)
-    S. García (sglopez@ujaen.es)
-    A. Fernández (alberto.fernandez@ujaen.es)
-    J. Luengo (julianlm@decsai.ugr.es)
-
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see http://www.gnu.org/licenses/
-
-**********************************************************************/
-"""
 from FarcHD_py.Individual import Individual
 from FarcHD_py.DataBase import DataBase
 from FarcHD_py.RuleBase import RuleBase
 from FarcHD_py.MyDataSet import MyDataSet
-from random import randrange
+from random import randrange, randint
 
 
 class Populate:
@@ -73,7 +43,7 @@ class Populate:
     """
 
     def __init__(self):
-        print("Init empty Populate ")
+        pass
 
     """
     * @param train Training dataset
@@ -152,7 +122,7 @@ class Populate:
             self.selected_array[i] = i
 
         for i in range(0, self.pop_size):
-            random = randrange(0, self.pop_size)
+            random = randint(0, self.pop_size - 1)
             aux = self.selected_array[random]
             self.selected_array[random] = self.selected_array[i]
             self.selected_array[i] = aux
@@ -175,7 +145,7 @@ class Populate:
             dad_individual = self.population_array[self.selected_array[i]]
             mom_individual = self.population_array[self.selected_array[i + 1]]
             dist = float(dad_individual.dist_hamming(mom_individual, self.bits_gen))
-            dist /= 2.0
+            dist = dist / 2.0
 
             if dist > self.l_value:
                 son1_individual = dad_individual.clone()
@@ -194,9 +164,9 @@ class Populate:
         # need to know which order to sort ,how to sort, if the sort will be saved
         self.population_array.sort(key=lambda x: x.fitness, reverse=True)
         while len(self.population_array) > self.pop_size:
-            #print("len(self.population_array)"+str(len(self.population_array)))
-            #print("len(self.pop_size)" + str(self.pop_size))
-            #print("value " + str(self.population_array[self.pop_size]))
+            # print("len(self.population_array)"+str(len(self.population_array)))
+            # print("len(self.pop_size)" + str(self.pop_size))
+            # print("value " + str(self.population_array[self.pop_size]))
             self.population_array.pop(self.pop_size)
         self.best_fitness = self.population_array[0].get_fitness()
 
@@ -221,7 +191,7 @@ class Populate:
         ind = None
         self.w1 = 0.0
 
-        self.population_array.sort(key=lambda x: x.fitness)
+        self.population_array.sort(key=lambda x: x.fitness,reverse=True)
 
         ind = self.population_array[0].clone()
         ind.set_w1_value(self.w1)
@@ -244,7 +214,7 @@ class Populate:
 
     def get_best_RB(self):
 
-        self.population_array.sort(key=lambda x: x.fitness,reverse = True)
+        self.population_array.sort(key=lambda x: x.fitness, reverse=True)
         rule_base = self.population_array[0].generate_rb()
 
         return rule_base

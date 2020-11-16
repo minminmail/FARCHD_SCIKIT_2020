@@ -65,9 +65,7 @@ class FarcHDClassifier():
     minsup = 0.0
     minconf = 0.0
     alpha = 0.0
-    something_wrong =None
-
-
+    something_wrong = False
 
     train_mydataset = None
     val_mydataset = None
@@ -104,7 +102,7 @@ class FarcHDClassifier():
     negative_rule_number = None
     zone_confident = 0
 
-    def __init__(self,prepare_parameter):
+    def __init__(self, prepare_parameter):
         print("__init__ of Fuzzy_Chi begin...")
         self.start_time = datetime.datetime.now()
 
@@ -122,7 +120,8 @@ class FarcHDClassifier():
             input_validation_file = prepare_parameter.get_validation_input_file()
             self.val_mydataset.read_classification_set(input_validation_file, True, prepare_parameter.file_path)
             print("Reading the test set: ")
-            self.test_mydataset.read_classification_set(prepare_parameter.get_input_test_files(), False, prepare_parameter.file_path)
+            self.test_mydataset.read_classification_set(prepare_parameter.get_input_test_files(), False,
+                                                        prepare_parameter.file_path)
             print(" ********* test_mydataset.myDataSet read_classification_set finished !!!!!! *********")
         except IOError as ioError:
             print("I/O error: " + str(ioError))
@@ -147,7 +146,7 @@ class FarcHDClassifier():
         self.file_rules = prepare_parameter.file_path + "//" + output_file_folder + "/rules.txt"
         # Now we parse the parameters long
         seed = int(float(prepare_parameter.get_parameter(0)))
-        para1 = prepare_parameter.get_parameter(1)
+
         self.nlabels = int(prepare_parameter.get_parameter(1))
         self.minsup = float(prepare_parameter.get_parameter(2))
         self.minconf = float(prepare_parameter.get_parameter(3))
@@ -161,7 +160,6 @@ class FarcHDClassifier():
         self.bits_gen = int(prepare_parameter.get_parameter(9))
         self.type_inference = int(prepare_parameter.get_parameter(10))
         random.seed(seed)
-
 
     def fit(self, X, y):
         """A reference implementation of a fitting function.
@@ -219,13 +217,12 @@ class FarcHDClassifier():
             self.rules_stage3 = int(self.rule_base.get_size())
 
             print("Begin the  negative rule generation ")
-            self.rule_base.generate_negative_rules(self.train_mydataset, self.negative_confident_value,self.zone_confident)
+            # self.rule_base.generate_negative_rules(self.train_mydataset, self.negative_confident_value,self.zone_confident)
 
-            self.negative_rule_number = len(self.rule_base.negative_rule_base_array)
+            # self.negative_rule_number = len(self.rule_base.negative_rule_base_array)
 
             self.data_base.save_file(self.file_db)
             self.rule_base.save_file(self.file_rb)
-
 
             #  Finally we should fill the training and test  output files
             self.do_output(self.val_mydataset, self.output_tr)
@@ -251,7 +248,7 @@ class FarcHDClassifier():
     # """
 
     def do_output(self, mydataset, filename):
-        output = ""
+
         output = mydataset.copy_header()  # we insert the header in the output file
         # We write the output for each example
         for i in range(0, mydataset.get_ndata()):
@@ -324,7 +321,7 @@ class FarcHDClassifier():
 
     def write_rules(self):
 
-        string_out = "" + str(self.rules_stage1) + " " + str(self.rules_stage2)+ " " + str(self.rules_stage3) + "\n"
+        string_out = "" + str(self.rules_stage1) + " " + str(self.rules_stage2) + " " + str(self.rules_stage3) + "\n"
 
         file = open(self.file_rules, "a+")
         file.write(string_out)
@@ -346,7 +343,7 @@ class FarcHDClassifier():
 
         # Input validation
         X = check_array(X, accept_sparse=True)
-        selected_array = [1,1,1,1,1,1,1,1]
+        selected_array = [1, 1, 1, 1, 1, 1, 1, 1]
         # Check is fit had been called
         check_is_fitted(self, ['X_', 'y_'], 'is_fitted_')
 
@@ -359,8 +356,6 @@ class FarcHDClassifier():
         print(predict_y)
 
         return predict_y[i]
-
-
 
     def score(self, test_X, test_y):
         """ A reference implementation of score function.
@@ -394,7 +389,7 @@ class FarcHDClassifier():
             print("predict_y[" + str(i) + "] is :" + str(predict_y[i]))
             print("test_y[" + str(i) + "] is :" + str(test_y[i]))
 
-            if (predict_y[i] == test_y[i]):
+            if predict_y[i] == test_y[i]:
                 hits = hits + 1
 
         print("predict_y in score is :")
@@ -402,4 +397,3 @@ class FarcHDClassifier():
         print(score)
 
         return score
-
