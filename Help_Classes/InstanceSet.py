@@ -52,13 +52,13 @@
 #
 import os
 
-from FarcHD_py.Help_Classes.FormatErrorKeeper import FormatErrorKeeper
-from FarcHD_py.Help_Classes.InstanceParser import InstanceParser
-from FarcHD_py.Help_Classes.Attribute import Attribute
-from FarcHD_py.Help_Classes.Attributes import Attributes
-from FarcHD_py.Help_Classes.InstanceAttributes import InstanceAttributes
-from FarcHD_py.Help_Classes.Instance import Instance
-from FarcHD_py.Help_Classes.ErrorInfo import ErrorInfo
+from Help_Classes.FormatErrorKeeper import FormatErrorKeeper
+from Help_Classes.InstanceParser import InstanceParser
+from Help_Classes.Attribute import Attribute
+from Help_Classes.Attributes import Attributes
+from Help_Classes.InstanceAttributes import InstanceAttributes
+from Help_Classes.Instance import Instance
+from Help_Classes.ErrorInfo import ErrorInfo
 from pathlib import Path, PureWindowsPath
 
 

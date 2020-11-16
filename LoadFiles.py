@@ -12,7 +12,7 @@ import logging
 import os
 from pathlib import Path
 
-from FarcHD_py.MyDataSet import MyDataSet
+from MyDataSet import MyDataSet
 
 
 class LoadFiles:

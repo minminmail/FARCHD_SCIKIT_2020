@@ -42,10 +42,10 @@
 #  */
 import decimal
 
-from FarcHD_py.Help_Classes.Attribute import Attribute
-from FarcHD_py.Help_Classes.Attributes import Attributes
-from FarcHD_py.Help_Classes.InstanceParser import InstanceParser
-from FarcHD_py.Help_Classes.ErrorInfo import ErrorInfo
+from Help_Classes.Attribute import Attribute
+from Help_Classes.Attributes import Attributes
+from Help_Classes.InstanceParser import InstanceParser
+from Help_Classes.ErrorInfo import ErrorInfo
 from decimal import *
 
 decimal.setcontext(decimal.Context(prec=34))

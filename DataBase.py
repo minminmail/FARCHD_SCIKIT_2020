@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import numpy as np
 from numpy import array
-from FarcHD_py.Fuzzy import Fuzzy
+from Fuzzy import Fuzzy
 
 
 class DataBase:

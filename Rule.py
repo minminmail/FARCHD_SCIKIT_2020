@@ -1,7 +1,7 @@
 from decimal import Decimal
 
-from FarcHD_py.Fuzzy import Fuzzy
-from FarcHD_py.data_row import DataRow
+from Fuzzy import Fuzzy
+from data_row import DataRow
 
 
 # * <p>This class contains the structure of a Fuzzy Rule</p>

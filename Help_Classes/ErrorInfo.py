@@ -45,7 +45,7 @@
 #  *
 #  */
 
-from FarcHD_py.Help_Classes.Attribute import Attribute
+from Help_Classes.Attribute import Attribute
 
 
 class ErrorInfo:

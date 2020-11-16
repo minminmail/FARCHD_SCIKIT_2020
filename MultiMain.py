@@ -1,7 +1,7 @@
 
 from os import listdir
 from os.path import isfile,join
-from FarcHD_py.Main import Main
+from Main import Main
 import sys
 
 class MultiMain:

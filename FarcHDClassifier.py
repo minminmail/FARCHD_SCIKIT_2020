@@ -7,16 +7,16 @@ from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import euclidean_distances
 
-from FarcHD_py.Apriori import Apriori
-from FarcHD_py.DataBase import DataBase
-from FarcHD_py.MyDataSet import MyDataSet
+from Apriori import Apriori
+from DataBase import DataBase
+from MyDataSet import MyDataSet
 import datetime
 import random
 import os
 import time
 
-from FarcHD_py.Populate import Populate
-from FarcHD_py.RuleBase import RuleBase
+from Populate import Populate
+from RuleBase import RuleBase
 
 
 class FarcHDClassifier():

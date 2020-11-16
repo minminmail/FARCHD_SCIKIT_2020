@@ -26,9 +26,7 @@
 # 	along with this program.  If not, see http://www.gnu.org/licenses/
 #
 # **********************************************************************
-from Cython.Compiler import Main
-
-from FarcHD_py.FarcHDClassifier import FarcHDClassifier
+# 
 from os import listdir
 from os.path import isfile, join
 import sys
@@ -39,7 +37,8 @@ from pathlib import Path
 # * @author Written by Alberto Fern谩ndez (University of Granada) 14/10/2007
 # * @version 1.0
 # * @since JDK1.5
-from FarcHD_py.LoadFiles import LoadFiles
+from LoadFiles import LoadFiles
+from FarcHDClassifier import FarcHDClassifier
 import numpy as np
 
 

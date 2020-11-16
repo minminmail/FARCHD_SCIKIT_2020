@@ -1,11 +1,11 @@
 from decimal import Decimal
 
-from FarcHD_py.Fuzzy import Fuzzy
-from FarcHD_py.DataBase import DataBase
-from FarcHD_py.Rule import Rule
-from FarcHD_py.data_row import DataRow
-from FarcHD_py.MyDataSet import MyDataSet
-from FarcHD_py.ExampleWeight import ExampleWeight
+from Fuzzy import Fuzzy
+from DataBase import DataBase
+from Rule import Rule
+from data_row import DataRow
+from MyDataSet import MyDataSet
+from ExampleWeight import ExampleWeight
 import gc
 
 

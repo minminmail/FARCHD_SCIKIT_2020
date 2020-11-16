@@ -48,7 +48,7 @@
 # */
 
 
-from FarcHD_py.Help_Classes import Attribute, Attributes
+from Help_Classes import Attribute, Attributes
 
 
 class InstanceAttributes:

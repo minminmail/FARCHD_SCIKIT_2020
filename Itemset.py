@@ -11,9 +11,9 @@ from __future__ import division
 #  */
 from decimal import Decimal
 
-from FarcHD_py.Item import Item
-from FarcHD_py.MyDataSet import MyDataSet
-from FarcHD_py.DataBase import DataBase
+from Item import Item
+from MyDataSet import MyDataSet
+from DataBase import DataBase
 
 
 

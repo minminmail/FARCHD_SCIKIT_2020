@@ -28,10 +28,10 @@
 # ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **
 from decimal import Decimal
 
-from FarcHD_py.Item import Item
-from FarcHD_py.Itemset import Itemset
-from FarcHD_py.RuleBase import RuleBase
-from FarcHD_py.MyDataSet import MyDataSet
+from Item import Item
+from Itemset import Itemset
+from RuleBase import RuleBase
+from MyDataSet import MyDataSet
 
 import gc
 import numpy as np

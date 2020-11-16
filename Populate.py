@@ -1,7 +1,7 @@
-from FarcHD_py.Individual import Individual
-from FarcHD_py.DataBase import DataBase
-from FarcHD_py.RuleBase import RuleBase
-from FarcHD_py.MyDataSet import MyDataSet
+from Individual import Individual
+from DataBase import DataBase
+from RuleBase import RuleBase
+from MyDataSet import MyDataSet
 from random import randrange, randint
 
 

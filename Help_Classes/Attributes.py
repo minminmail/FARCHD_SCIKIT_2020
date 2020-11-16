@@ -32,7 +32,7 @@
 #  *
 #  * Created on 20 de junio de 2004, 10:06
 #  */
-from FarcHD_py.Help_Classes.Attribute import Attribute
+from Help_Classes.Attribute import Attribute
 
 
 # /**

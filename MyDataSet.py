@@ -8,9 +8,9 @@
 # '''
 from decimal import Decimal
 
-from FarcHD_py.Help_Classes.InstanceSet import InstanceSet
-from FarcHD_py.Help_Classes.Attributes import Attributes
-from FarcHD_py.Help_Classes.Attribute import Attribute
+from Help_Classes.InstanceSet import InstanceSet
+from Help_Classes.Attributes import Attributes
+from Help_Classes.Attribute import Attribute
 import math
 import numpy as np
 import sys
