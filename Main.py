@@ -62,7 +62,7 @@ class Main:
         np.random.seed(0)
 
         lf = LoadFiles()
-        lf.parse_configuration_file("iris", "config8s0.txt")
+        lf.parse_configuration_file("FarcHD_py\iris", "config0s0.txt")
         X = lf.get_X()
         y = lf.get_y()
         indices = np.random.permutation(len(X))

@@ -122,6 +122,7 @@ class Apriori:
             self.rule_base_class.clear()
             gc.collect()
 
+    # each vairable, with different label, each possible class value
     def generate_l2_array(self, class_pass):
 
         if len(self.l2_array) != 0:
@@ -168,7 +169,8 @@ class Apriori:
                     uncover = uncover + 1
 
         return uncover
-
+    
+    #
     def generate_large(self, Lk, class_pass):
         # int
         i = None
@@ -221,6 +223,7 @@ class Apriori:
     def get_rules_stage1(self):
         return self.rule_stage1
 
+    #generate confident >0.4 rules
     def generate_rules(self, lk, class_pass):
         # int
         i = None
