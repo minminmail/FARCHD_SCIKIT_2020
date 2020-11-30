@@ -153,5 +153,5 @@ class Itemset:
         for i in range(0, len(self.itemset)):
             if degree > 0.0:
                 item = self.itemset[i]
-                degree *= dataBase.matching(item.get_variable(), item.get_value(), example[item.get_variable()])
+                degree *= dataBase.matching(item.get_variable(), item.get_label(), example[item.get_variable()])
         return degree

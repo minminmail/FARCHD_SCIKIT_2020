@@ -117,15 +117,15 @@ class RuleBase:
             if j < self.n_variables and rule.antecedent[j] >= 0:
                 cadena_string += names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
                 ant = ant + 1
-
+     
             for m in range(j + 1, self.n_variables - 1):
 
-                if rule.antecedent[j] >= 0:
-                    cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
+                if rule.antecedent[m] >= 0:
+                    cadena_string += " AND " + names[m] + " IS " + rule.data_base.print_here(m, rule.antecedent[m])
                     ant = ant + 1
-            j = j + 1
-            if j < self.n_variables and rule.antecedent[j] >= 0:
-                cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j]) + ": " + \
+            m = self.n_variables - 1
+            if m < self.n_variables and rule.antecedent[m] >= 0:
+                cadena_string += " AND " + names[m] + " IS " + rule.data_base.print_here(m, rule.antecedent[m]) + ": " + \
                                  classes[rule.class_value]
                 ant += 1
 
@@ -546,7 +546,7 @@ class RuleBase:
             antecedent_array[i] = -1
         for i in range(0, itemset_pass.size()):
             item = itemset_pass.get(i)
-            antecedent_array[item.get_variable()] = item.get_value()
+            antecedent_array[item.get_variable()] = item.get_variable()
 
             rule = Rule(self.data_base)
             rule.assign_antecedente(antecedent_array)

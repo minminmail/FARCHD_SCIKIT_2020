@@ -16,24 +16,24 @@
 class Item:
     # int
     variable = None
-    value = None
+    label = None
 
     # /**
     #  * Default constructor.
     #  * None attribute will be initialized.
     #  */
-    def __init__(self, variable, value):
+    def __init__(self, variable, label):
         self.variable = variable
-        self.value = value
+        self.label = label
 
     # * It sets the pair of values to the item
     # * </p>
     # * @param variable Value which represents an input attribute of a rule
     # * @param value Value attached to the variable
 
-    def set_values(self, variable, value):
+    def set_values(self, variable, label):
         self.variable = variable
-        self.value = value
+        self.label = label
 
     # * It returns the variable of the item
     # * </p>
@@ -42,20 +42,20 @@ class Item:
     def get_variable(self):
         return self.variable
 
-    # * It returns the value of the item
-    # * @return Value of the item
-    def get_value(self):
-        return self.value
+    # * It returns the label of the item
+    # * @return label of the item
+    def get_label(self):
+        return self.label
 
     def clone(self):
-        d = Item(self.variable, self.value)
+        d = Item(self.variable, self.label)
         return d
 
     #   * Function to check if an item is equal to another given
     #   * @param a Item to compare with ours
     #   * @return boolean true = they are equal, false = they aren't.
     def is_equal(self, a_item):
-        if (self.variable == a_item.variable) and (self.value == a_item.value):
+        if (self.variable == a_item.variable) and (self.label == a_item.label):
             return True
         else:
             return False
@@ -63,7 +63,7 @@ class Item:
     # * Function to compare objects of the Item class.
     # * Necessary to be able to use "sort" function.
     # * It sorts in an decreasing order of attribute.
-    # * If equals, in an decreasing order of attribute's value.
+    # * If equals, in an decreasing order of attribute's label.
     # * @param a Item object to compare with.
     # * @return -1 if a is bigger, 1 if smaller and 0 otherwise.
 
@@ -73,10 +73,10 @@ class Item:
 
         elif a_object.variable < self.variable:
             return 1
-        elif a_object.value > self.value:
+        elif a_object.label > self.label:
             return -1
 
-        elif a_object.value < self.value:
+        elif a_object.label < self.label:
             return 1
 
         return 0
