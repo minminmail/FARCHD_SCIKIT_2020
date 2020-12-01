@@ -117,15 +117,17 @@ class RuleBase:
             if j < self.n_variables and rule.antecedent[j] >= 0:
                 cadena_string += names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
                 ant = ant + 1
-     
-            for m in range(j + 1, self.n_variables - 1):
+            	
+            print("after if , j is :" + str(j))
+            j=j+1
+            for j in range(j , self.n_variables - 1):
 
-                if rule.antecedent[m] >= 0:
-                    cadena_string += " AND " + names[m] + " IS " + rule.data_base.print_here(m, rule.antecedent[m])
+                if rule.antecedent[j] >= 0:
+                    cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
                     ant = ant + 1
-            m = self.n_variables - 1
-            if m < self.n_variables and rule.antecedent[m] >= 0:
-                cadena_string += " AND " + names[m] + " IS " + rule.data_base.print_here(m, rule.antecedent[m]) + ": " + \
+            #m = self.n_variables - 1
+            if j < self.n_variables and rule.antecedent[j] >= 0:
+                cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j]) + ": " + \
                                  classes[rule.class_value]
                 ant += 1
 
@@ -731,17 +733,17 @@ class RuleBase:
     def get(self, pos):
         return self.rule_base_array[pos]
 
-    """  
-    /**
-   * Maximization
-   * @param a first number
-   * @param b second number
-   * @return boolean true if a is greater than b
-   */
-   
-   """
+        """  
+        /**
+    * Maximization
+    * @param a first number
+    * @param b second number
+    * @return boolean true if a is greater than b
+    */
+    
+    """
 
-    def better(a, b):
+    def better(self,a, b):
         if a > b:
             return True
         else:
