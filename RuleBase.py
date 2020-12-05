@@ -516,6 +516,8 @@ class RuleBase:
                 nrule_select = nrule_select + 1
                 rule = self.rule_base_array[posBestWracc]
                 nexamples = nexamples - rule.reduce_weight(self.train_myDataSet, example_weight)
+
+               
             if  (nexamples > 0 and (nrule_select < len(self.rule_base_array)) and (posBestWracc > -1)):
                 pass
             else:
