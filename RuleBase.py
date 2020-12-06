@@ -552,12 +552,12 @@ class RuleBase:
             item = itemset_pass.get(i)
             antecedent_array[item.get_variable()] = item.get_variable()
 
-            rule = Rule(self.data_base)
-            rule.assign_antecedente(antecedent_array)
-            rule.set_consequent(itemset_pass.get_class())
-            rule.set_confidence(itemset_pass.get_support_class() / itemset_pass.get_support())
-            rule.set_support(itemset_pass.get_support_class())
-            self.rule_base_array.append(rule)
+        rule = Rule(self.data_base)
+        rule.assign_antecedente(antecedent_array)
+        rule.set_consequent(itemset_pass.get_class())
+        rule.set_confidence(itemset_pass.get_support_class() / itemset_pass.get_support())
+        rule.set_support(itemset_pass.get_support_class())
+        self.rule_base_array.append(rule)
 
     def get_size(self):
         return len(self.rule_base_array)
