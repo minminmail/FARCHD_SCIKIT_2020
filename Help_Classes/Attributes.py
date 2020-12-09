@@ -536,13 +536,13 @@ class Attributes:
         self.hasInteger = False
         self.hasReal = False
 
-        for index in range(0, 2):
+        for index in range(0, 2):                                         
             if index == 0:
                 iterations = len(self.inputAttr)
             else:
                 iterations = len(self.outputAttr)
 
-            for i in range(0, iterations):
+            for i in range(0, iterations):                                                                                                                                                                                                                                                                                                               
                 if index == 0:
                     att = self.inputAttr[i]
                 else:

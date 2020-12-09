@@ -550,7 +550,7 @@ class RuleBase:
             antecedent_array[i] = -1
         for i in range(0, itemset_pass.size()):
             item = itemset_pass.get(i)
-            antecedent_array[item.get_variable()] = item.get_variable()
+            antecedent_array[item.get_variable()] = item.get_label()
 
         rule = Rule(self.data_base)
         rule.assign_antecedente(antecedent_array)
