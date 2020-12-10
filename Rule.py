@@ -166,6 +166,7 @@ class Rule:
     /**
     * Calculate Wracc for this rule.
     * The value of the measure Wracc for this rule will be stored on the attribute "wracc".
+      decreasing of wracc
     * @param train Training dataset
     * @param exampleWeight Weights of the patterns
     """

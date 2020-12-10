@@ -214,7 +214,7 @@ class Populate:
 
     def get_best_RB(self):
 
-        self.population_array.sort(key=lambda x: x.fitness)
+        self.population_array.sort(key=lambda x: x.fitness,reverse=True)
         rule_base = self.population_array[0].generate_rb()
 
         return rule_base

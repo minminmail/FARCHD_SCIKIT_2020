@@ -57,7 +57,6 @@ class LoadFiles:
         print("self.file_to_open :" + self.file_to_open)
         file = open(self.file_to_open, "r")
 
-
         logging.info("fileName in parseParameters = " + file_name)
         logging.info("before open file")
         # print(fileName)
