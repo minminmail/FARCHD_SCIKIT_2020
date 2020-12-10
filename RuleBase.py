@@ -120,20 +120,24 @@ class RuleBase:
             	
             print("after if , j is :" + str(j))
             j=j+1
-            for j in range(j , self.n_variables - 1):
+            k =j
+            for j in range(k , self.n_variables):
 
                 if rule.antecedent[j] >= 0:
                     cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
                     ant = ant + 1
             #m = self.n_variables - 1
+            """
             if j < self.n_variables and rule.antecedent[j] >= 0:
                 cadena_string += " AND " + names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j]) + ": " + \
                                  classes[rule.class_value]
                 ant += 1
 
             else:
-                cadena_string += ": " + classes[rule.class_value]
 
+                cadena_string += ": " + classes[rule.class_value]
+            """
+            cadena_string += ": " + classes[rule.class_value]
             cadena_string += " CF: " + str(rule.get_confidence()) + "\n"
 
         cadena_string += "\n\n"
