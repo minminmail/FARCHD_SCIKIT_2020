@@ -81,6 +81,7 @@ class DataBase:
                 self.database_ini[i][j].y = self.database[i][j].y = 1.0
                 self.database[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
                 self.database_ini[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
+            # print("finished init database")
 
     # 2020-08-14
     def set_value(self, val, min_value, max_value):
@@ -125,7 +126,8 @@ class DataBase:
                     self.database[i][j].x1 = self.database_ini[i][j].x1 + displacement
                     self.database[i][j].x3 = self.database_ini[i][j].x3 + displacement
 
-                    pos += 1
+                    pos =pos+ 1
+        # print("finished decode")
 
     """
    * It returns the number of input attributes in the examples

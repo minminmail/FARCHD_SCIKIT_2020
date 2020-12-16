@@ -380,12 +380,13 @@ class Individual:
 
         self.fitness = self.accuracy - (self.w1_value / (self.rule_base.get_size() - self.get_nselected() + 1.0)) - (
                 5.0 * self.rule_base.get_uncover()) - (5.0 * self.rule_base.has_class_uncovered(self.geneR_array))
+        #print("fitness in evaluate is : " + str(self.fitness ))
 
     def compare_to(self, a_object):
-        if Individual(a_object).fitness < self.fitness:
+        if a_object.fitness < self.fitness:
             return -1
 
-        if Individual(a_object).fitness > self.fitness:
+        if a_object.fitness > self.fitness:
             return 1
         return 0
 

@@ -530,7 +530,9 @@ class RuleBase:
         for i in range(len(self.rule_base_array) - 1, 0, -1):
             if selected[i] == 0:
                 self.rule_base_array.pop(i)
-
+        #the last 0 is not considered by loop, so we must add it here.
+        if selected[0] == 0:
+                self.rule_base_array.pop(0)
         example_weight.clear()
         gc.collect()
 
@@ -682,6 +684,7 @@ class RuleBase:
                 self.nuncover_class_array[self.train_myDataSet.get_output_as_integer_with_pos(j)] += 1
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
+        #print("evaluate_with_two_parameters :IN Rule Base, fitness is :" + str(self.fitness))
 
     """
      /**

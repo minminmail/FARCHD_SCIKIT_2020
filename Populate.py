@@ -169,6 +169,7 @@ class Populate:
             # print("value " + str(self.population_array[self.pop_size]))
             self.population_array.pop(self.pop_size)
         self.best_fitness = self.population_array[0].get_fitness()
+        #print("in elitist in population class the best_fitness is :" +str(self.best_fitness))
 
     def has_new(self):
 
@@ -194,6 +195,7 @@ class Populate:
         self.population_array.sort(key=lambda x: x.fitness,reverse=True)
 
         ind = self.population_array[0].clone()
+        print(" in restart the selected self.population_array[0] fitness is "+str(ind.fitness))
         ind.set_w1_value(self.w1)
 
         self.population_array.clear()

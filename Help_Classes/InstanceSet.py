@@ -204,9 +204,9 @@ class InstanceSet:
             # to do The exception in init InstanceParserof InstanceParse is: can only concatenate str (not "WindowsPath") to str
             instance_parser = InstanceParser(self.file_to_open, isTrain)
             # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
-            print("In readSet finished read file " + str(self.file_to_open))
+            # print("In readSet finished read file " + str(self.file_to_open))
             self.parseHeader(instance_parser, isTrain)
-            print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
+            # print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
             # The attributes statistics are init if we are in train mode.
             print("In readSet, isTrain is " + str(isTrain))
             if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
