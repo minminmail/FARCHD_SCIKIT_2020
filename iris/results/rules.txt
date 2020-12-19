@@ -109,3 +109,7 @@
 100 9 5
 96 9 5
 96 9 5
+96 <bound method RuleBase.get_size of <RuleBase.RuleBase object at 0x000001E3C34CE828>> 5
+96 <bound method RuleBase.get_size of <RuleBase.RuleBase object at 0x000001A7C3F0A630>> 5
+96 <bound method RuleBase.get_size of <RuleBase.RuleBase object at 0x000002EB64E0C6D8>> 5
+151 <bound method RuleBase.get_size of <RuleBase.RuleBase object at 0x000001DB3DA3D6D8>> 3

@@ -230,7 +230,7 @@ class Apriori:
         uncover = None
         itemset = None
         confidence = Decimal(0)
-        for i in range(len(lk) - 1, 0, -1):
+        for i in range(len(lk) - 1, -1, -1):
             itemset = lk[i]
 
             if itemset.get_support() > 0.0:

@@ -527,12 +527,11 @@ class RuleBase:
             else:
                 break
 
-        for i in range(len(self.rule_base_array) - 1, 0, -1):
+        for i in range(len(self.rule_base_array)-1, -1, -1):
             if selected[i] == 0:
                 self.rule_base_array.pop(i)
         #the last 0 is not considered by loop, so we must add it here.
-        if selected[0] == 0:
-                self.rule_base_array.pop(0)
+      
         example_weight.clear()
         gc.collect()
 

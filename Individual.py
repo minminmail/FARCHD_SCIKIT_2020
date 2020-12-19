@@ -218,7 +218,7 @@ class Individual:
         for i in range(0, self.ngenes):
             n_value = int((self.gene_array[i] / incremento + 0.5))
 
-            for j in range(bits_gen - 1, 0, -1):
+            for j in range(bits_gen - 1, -1, -1):
                 aux_str_array[j] = str(n_value & 1)
                 n_value >>= 1
 
@@ -241,7 +241,7 @@ class Individual:
             else:
                 print("Exception happened, the incremento is 0 !")
 
-            for j in range(bits_gen - 1, 0, -1):
+            for j in range(bits_gen - 1, -1, -1):
                 aux_str_array[j] = str(n_value & 1)
                 n_value >>= 1
 
@@ -364,7 +364,7 @@ class Individual:
         rule_base.evaluate_with_two_parameters(self.gene_array, self.geneR_array)
         rule_base.set_default_rule()
 
-        for i in range(len(self.geneR_array) - 1, 0, -1):
+        for i in range(len(self.geneR_array) - 1, -1, -1):
             if self.geneR_array[i] < 1:
                 rule_base.remove(i)
 

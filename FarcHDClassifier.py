@@ -204,6 +204,10 @@ class FarcHDClassifier():
             self.apriori.generate_rb()
             self.rules_stage1 = self.apriori.get_rules_stage1()
             self.rules_stage2 = self.rule_base.get_size()
+            print("self.rules_stage1")
+            print(self.rules_stage1)
+            print("self.rules_stage2")
+            print(self.rules_stage2)
 
             self.pop = Populate()
 
