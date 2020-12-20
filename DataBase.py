@@ -82,6 +82,7 @@ class DataBase:
                 self.database[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
                 self.database_ini[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
             # print("finished init database")
+            
 
     # 2020-08-14
     def set_value(self, val, min_value, max_value):

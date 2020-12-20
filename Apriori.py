@@ -241,7 +241,8 @@ class Apriori:
                 self.rule_base_class.add_itemset(itemset)
                 self.rule_stage1 = self.rule_stage1 + 1
             if confidence > self.minconf:
-                lk = np.delete(lk, i)
+                lk.pop(i)
+                #lk = np.delete(lk, i)
 
         if self.rule_base_class.get_size() > 500000:
             self.rule_base_class.reduce_rules(class_pass)
