@@ -32,7 +32,7 @@ from RuleBase import RuleBase
 import numpy as np
 import math
 import random
-
+from Logger import Logger
 
 class Individual:
     gene_array = []  # float
@@ -40,12 +40,14 @@ class Individual:
     fitness = 0.0
     accuracy = 0.0
     w1_value = 0.0
+    logger = None
 
     n_e = 0
     ngenes = 0
     rule_base = None
 
     def __init__(self):
+        self.logger = Logger.set_logger()
         pass
 
     """
@@ -55,6 +57,7 @@ class Individual:
     """
 
     def init_with_parameter(self, rule_base, database, w1_value):
+        self.logger = Logger.set_logger()
         self.rule_base = rule_base
         self.w1_value = w1_value
         self.fitness = -np.inf
@@ -380,7 +383,8 @@ class Individual:
 
         self.fitness = self.accuracy - (self.w1_value / (self.rule_base.get_size() - self.get_nselected() + 1.0)) - (
                 5.0 * self.rule_base.get_uncover()) - (5.0 * self.rule_base.has_class_uncovered(self.geneR_array))
-        #print("fitness in evaluate is : " + str(self.fitness ))
+        self.logger.debug (" In individual calcuates the fitness with accuracy, the fitness is :" +str(self.fitness))
+        print("fitness in evaluate is : " + str(self.fitness ))
 
     def compare_to(self, a_object):
         if a_object.fitness < self.fitness:
@@ -389,10 +393,11 @@ class Individual:
         if a_object.fitness > self.fitness:
             return 1
         return 0
-
+        
+        
     """
-       * Function to return if this individual is new in the population
-       * @return boolean true = it is-, false = it isn't
+            * Function to return if this individual is new in the population
+            * @return boolean true = it is-, false = it isn't
     """
 
     def is_new(self):

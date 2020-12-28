@@ -377,7 +377,7 @@ class Attribute:
     #  * @return a double with the maximum value
     #  '''
     def getMaxAttribute(self):
-        print(" attribute the max value is " + str(self.__min))
+        print(" attribute the max value is " + str(self.__max))
         return self.__max
 
     def get_max_granularity_attribute(self, data_set_x_array, attribute_number):

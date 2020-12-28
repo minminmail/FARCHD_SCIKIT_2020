@@ -197,9 +197,10 @@ class Apriori:
                             if new_itemset.get_support_class() >= self.minsup:
                                 l_new.append(new_itemset)
 
-                    self.generate_rules(l_new, class_pass)
+                    l_new = self.generate_rules(l_new, class_pass)
                     self.generate_large(l_new, class_pass)
                     l_new.clear()
+               
                     gc.collect()
 
     def is_combinable(self, itemseti, itemsetj):
@@ -247,3 +248,5 @@ class Apriori:
         if self.rule_base_class.get_size() > 500000:
             self.rule_base_class.reduce_rules(class_pass)
             gc.collect()
+
+        return lk

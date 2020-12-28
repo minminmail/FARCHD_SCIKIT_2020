@@ -3,6 +3,7 @@ from decimal import Decimal
 from Fuzzy import Fuzzy
 from DataBase import DataBase
 from Rule import Rule
+from Logger import Logger
 from data_row import DataRow
 from MyDataSet import MyDataSet
 from ExampleWeight import ExampleWeight
@@ -39,6 +40,7 @@ class RuleBase:
     default_rule = None
     nuncover = None
     nuncover_class_array = []
+    logger = None
 
     # /**
     #  * Rule Base Constructor
@@ -50,6 +52,7 @@ class RuleBase:
     #  * @param classes String[] the labels for the class attributes
     #  */
     def __init__(self):
+        self.logger = Logger.set_logger( )
         pass
 
     def init_with_five_parameters(self, data_base_pass, train_myDataset_pass, K_int, inferenceType_pass):
@@ -503,7 +506,7 @@ class RuleBase:
 
         nexamples = self.train_myDataSet.number_instances(class_value)
         nrule_select = 0
-        posBestWracc = 0
+        posBestWracc = None
 
         while True:
             bestWracc = -1.0
@@ -652,6 +655,7 @@ class RuleBase:
                 self.nuncover_class_array[self.train_myDataSet.get_output_as_integer(j)] +=  1
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
+        self.logger.debug("In evaluate of ruleBase , the self.fitness is :" + str(self.fitness))
 
     """
      * Function to evaluate the selected rules by using the training dataset and the fuzzy functions stored in the gene given.
@@ -683,7 +687,8 @@ class RuleBase:
                 self.nuncover_class_array[self.train_myDataSet.get_output_as_integer_with_pos(j)] += 1
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
-        #print("evaluate_with_two_parameters :IN Rule Base, fitness is :" + str(self.fitness))
+        self.logger.debug("In ruleBase , evaluate_with_two_parameters, recalulation the fitness, the self.fitness is :" + str(self.fitness))
+        print("evaluate_with_two_parameters :IN Rule Base, fitness is :" + str(self.fitness))
 
     """
      /**

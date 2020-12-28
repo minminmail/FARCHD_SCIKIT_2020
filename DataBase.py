@@ -79,6 +79,7 @@ class DataBase:
                 value = float(ranks[i][0]) + mark * (j + 1)
                 self.database_ini[i][j].x3 = self.database[i][j].x3 = self.set_value(value, ranks[i][0], ranks[i][1])
                 self.database_ini[i][j].y = self.database[i][j].y = 1.0
+                
                 self.database[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
                 self.database_ini[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
             # print("finished init database")

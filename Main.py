@@ -30,6 +30,7 @@
 from os import listdir
 from os.path import isfile, join
 import sys
+import logging
 from pathlib import Path
 
 # * <p>It reads the configuration file (data-set files and parameters) and launch the algorithm</p>
@@ -40,6 +41,7 @@ from pathlib import Path
 from LoadFiles import LoadFiles
 from FarcHDClassifier import FarcHDClassifier
 import numpy as np
+from Logger import Logger
 
 
 class Main:
@@ -59,20 +61,31 @@ class Main:
 
         # print("sys.argv: " + sys.argv[1])
         # execute(sys.argv[1])
+
+        logger=Logger.set_logger()
+
         np.random.seed(0)
 
         lf = LoadFiles()
-        lf.parse_configuration_file("FarcHD_py\iris", "config0s0.txt")
+        logger.debug("Begin  lf.parse_configuration_file in Main ")
+        lf.parse_configuration_file("FarcHD_py\iris", "config1s0.txt")
         X = lf.get_X()
         y = lf.get_y()
         indices = np.random.permutation(len(X))
 
         iris_X_test = lf.get_test_x()
         iris_y_test = lf.get_test_y()
-
+        
+        logger.debug("Begin  FarcHDClassifier in Main ")
         farchd_classifier = FarcHDClassifier(lf)
 
+
+        logger.debug("Begin  farchd_classifier.fit in Main ")
         farchd_classifier.fit(X, y)
         test_x = [4.6, 3.1, 1.5, 0.2]
+
+        logger.debug("Begin  farchd_classifier.predictin Main ")
         farchd_classifier.predict(iris_X_test)
+
+        logger.debug("Begin  farchd_classifier.score Main ")
         farchd_classifier.score(iris_X_test, iris_y_test)

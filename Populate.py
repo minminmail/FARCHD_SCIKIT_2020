@@ -3,6 +3,8 @@ from DataBase import DataBase
 from RuleBase import RuleBase
 from MyDataSet import MyDataSet
 from random import randrange, randint
+import logging
+from Logger import Logger 
 
 
 class Populate:
@@ -25,6 +27,7 @@ class Populate:
     train_mydataset = None
     data_base = None
     rule_base = None
+    logger = None
 
     """
     * Maximization
@@ -43,6 +46,7 @@ class Populate:
     """
 
     def __init__(self):
+        self.logger = Logger.set_logger()
         pass
 
     """
@@ -58,6 +62,7 @@ class Populate:
 
     def init_with_multiple_parameters(self, train_mydataset_pass, data_base, rule_base_pass, size, bits_gen, maxtrials,
                                       alpha):
+        self.logger=Logger.set_logger()
         self.data_base = data_base
         self.train_mydataset = train_mydataset_pass
         self.rule_base = rule_base_pass
@@ -95,6 +100,7 @@ class Populate:
                 break
 
     def init(self):
+        self.logger=Logger.set_logger()
         ind = Individual()
         ind.init_with_parameter(self.rule_base, self.data_base, self.w1)
         ind.reset()
@@ -104,6 +110,7 @@ class Populate:
             ind.init_with_parameter(self.rule_base, self.data_base, self.w1)
             ind.random_values()
             self.population_array.append(ind)
+            print(" the init loop  method added "+ str(i)+"individuals ")
 
         self.best_fitness = 0.0
         self.ntrials = 0
@@ -122,10 +129,17 @@ class Populate:
             self.selected_array[i] = i
 
         for i in range(0, self.pop_size):
-            random = randint(0, self.pop_size - 1)
+            """
+            numpy.random.randint(low, high=None, size=None, dtype='l')¶
+            Return random integers from low (inclusive) to high (inclusive). looks include the high also, 
+            """
+            random = randint(0, self.pop_size-1)
+            print("random is :" + str(random))
             aux = self.selected_array[random]
             self.selected_array[random] = self.selected_array[i]
             self.selected_array[i] = aux
+        for i in range(0, self.pop_size):
+            self.logger.debug( "self.selected_array["+ str(i)+ "]"+ str(self.selected_array[i]))
 
     def xpc_blx(self, d_value, son1_individual, son2_individual):
         son1_individual.xpc_blx(son2_individual, d_value)
@@ -159,8 +173,11 @@ class Populate:
 
                 self.population_array.append(son1_individual)
                 self.population_array.append(son2_individual)
+        for i in range (0, len(self.population_array)):
+            self.logger.debug("self.population_array[" + str(i)+ "].fitness" + str(self.population_array[i].fitness))
 
     def elitist(self):
+        
         # need to know which order to sort ,how to sort, if the sort will be saved
         self.population_array.sort(key=lambda x: x.fitness, reverse=True)
         while len(self.population_array) > self.pop_size:
@@ -169,6 +186,8 @@ class Populate:
             # print("value " + str(self.population_array[self.pop_size]))
             self.population_array.pop(self.pop_size)
         self.best_fitness = self.population_array[0].get_fitness()
+        self.logger.debug("In elitist of Populate class, self.best_fitness  " + str(self.best_fitness))
+
         #print("in elitist in population class the best_fitness is :" +str(self.best_fitness))
 
     def has_new(self):
@@ -195,6 +214,7 @@ class Populate:
         self.population_array.sort(key=lambda x: x.fitness,reverse=True)
 
         ind = self.population_array[0].clone()
+        self.logger.debug("in restart , Populate class, ind.fitness, self.population_array[0] is :  " + str(ind.fitness))
         print(" in restart the selected self.population_array[0] fitness is "+str(ind.fitness))
         ind.set_w1_value(self.w1)
 
@@ -216,7 +236,14 @@ class Populate:
 
     def get_best_RB(self):
 
+        for i in range ( 0, len(self.population_array)):
+            print("self.population_array["+str(i)+"].fitness")
+            self.logger.debug("in get_best_RB , in populate class, self.population_array["+str(i)+"].fitness"+ str(self.population_array[i].fitness))
+            print(self.population_array[i].fitness)
+
+
         self.population_array.sort(key=lambda x: x.fitness,reverse=True)
         rule_base = self.population_array[0].generate_rb() 
+        self.logger.debug("in get_best_RB , in populate class, return rule_base self.population_array["+str(0)+"].fitness"+ str(self.population_array[0].fitness))
 
         return rule_base
