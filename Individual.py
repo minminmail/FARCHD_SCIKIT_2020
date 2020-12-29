@@ -339,20 +339,25 @@ class Individual:
 
         for i in range(0, self.ngenes):
             i_value = d_value * abs(self.gene_array[i] - indiv.gene_array[i])
-            a1 = self.gene_array[i] - i_value
 
+            a1 = self.gene_array[i] - i_value
             if a1 < 0.0:
                 a1 = 0.0
+
             c1 = self.gene_array[i] + i_value
             if c1 > 1.0:
                 c1 = 1.0
+
             self.gene_array[i] = a1 + np.random.rand()* (c1 - a1)
+
             a1 = indiv.gene_array[i] - i_value
             if a1 < 0.0:
                 a1 = 0.0
+
             c1 = indiv.gene_array[i] + i_value
             if c1 > 1.0:
                 c1 = 1.0
+                
             indiv.gene_array[i] = a1 + np.random.rand() * (c1 - a1)
 
     """

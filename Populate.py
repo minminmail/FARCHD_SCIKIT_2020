@@ -139,7 +139,7 @@ class Populate:
             self.selected_array[random] = self.selected_array[i]
             self.selected_array[i] = aux
         for i in range(0, self.pop_size):
-            self.logger.debug( "self.selected_array["+ str(i)+ "]"+ str(self.selected_array[i]))
+            self.logger.debug( "In selection, self.selected_array["+ str(i)+ "]"+ str(self.selected_array[i]))
 
     def xpc_blx(self, d_value, son1_individual, son2_individual):
         son1_individual.xpc_blx(son2_individual, d_value)
@@ -174,17 +174,25 @@ class Populate:
                 self.population_array.append(son1_individual)
                 self.population_array.append(son2_individual)
         for i in range (0, len(self.population_array)):
-            self.logger.debug("self.population_array[" + str(i)+ "].fitness" + str(self.population_array[i].fitness))
+            self.logger.debug("In cross_over, self.population_array[" + str(i)+ "].fitness" + str(self.population_array[i].fitness))
 
     def elitist(self):
         
         # need to know which order to sort ,how to sort, if the sort will be saved
         self.population_array.sort(key=lambda x: x.fitness, reverse=True)
+        for i in range (0, len(self.population_array)):
+            self.logger.debug("In elitist, before pop, self.population_array[" + str(i)+ "].fitness" + str(self.population_array[i].fitness))
+        
         while len(self.population_array) > self.pop_size:
             # print("len(self.population_array)"+str(len(self.population_array)))
             # print("len(self.pop_size)" + str(self.pop_size))
             # print("value " + str(self.population_array[self.pop_size]))
+            self.logger.debug("In elitist,pop， self.population_array[" + str(self.pop_size)+ "].fitness" + str(self.population_array[self.pop_size].fitness))
             self.population_array.pop(self.pop_size)
+
+        for i in range (0, len(self.population_array)):
+            self.logger.debug("In elitist, after pop, self.population_array[" + str(i)+ "].fitness" + str(self.population_array[i].fitness))
+
         self.best_fitness = self.population_array[0].get_fitness()
         self.logger.debug("In elitist of Populate class, self.best_fitness  " + str(self.best_fitness))
 
@@ -238,7 +246,7 @@ class Populate:
 
         for i in range ( 0, len(self.population_array)):
             print("self.population_array["+str(i)+"].fitness")
-            self.logger.debug("in get_best_RB , in populate class, self.population_array["+str(i)+"].fitness"+ str(self.population_array[i].fitness))
+            self.logger.debug("in get_best_RB of populate, in populate class, self.population_array["+str(i)+"].fitness"+ str(self.population_array[i].fitness))
             print(self.population_array[i].fitness)
 
 
