@@ -101,6 +101,7 @@ class FarcHDClassifier():
     negative_confident_value = 0
     negative_rule_number = None
     zone_confident = 0
+    seed_int =None
 
     def __init__(self, prepare_parameter):
         print("__init__ of Fuzzy_Chi begin...")
@@ -145,7 +146,7 @@ class FarcHDClassifier():
         self.file_hora = prepare_parameter.file_path + "//" + output_file_folder + "/hora.txt"
         self.file_rules = prepare_parameter.file_path + "//" + output_file_folder + "/rules.txt"
         # Now we parse the parameters long
-        seed = int(float(prepare_parameter.get_parameter(0)))
+        self.seed_int = int(float(prepare_parameter.get_parameter(0)))
 
         self.nlabels = int(prepare_parameter.get_parameter(1))
         self.minsup = float(prepare_parameter.get_parameter(2))
@@ -159,7 +160,7 @@ class FarcHDClassifier():
         self.alpha = float(prepare_parameter.get_parameter(8))
         self.bits_gen = int(prepare_parameter.get_parameter(9))
         self.type_inference = int(prepare_parameter.get_parameter(10))
-        random.seed(seed)
+        random.seed(self.seed_int)
 
     def fit(self, X, y):
         """A reference implementation of a fitting function.
@@ -211,7 +212,7 @@ class FarcHDClassifier():
 
             self.pop = Populate()
 
-            self.pop.init_with_multiple_parameters(self.train_mydataset, self.data_base, self.rule_base,
+            self.pop.init_with_multiple_parameters(self.seed_int,self.train_mydataset, self.data_base, self.rule_base,
                                                    self.population_size, self.bits_gen, self.max_trials, self.alpha)
             self.pop.generation()
 

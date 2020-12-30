@@ -110,6 +110,7 @@ class Individual:
     """
 
     def random_values(self):
+   
         if self.ngenes > 0:
             for i in range(0, self.ngenes):
                 self.gene_array[i] = np.random.rand()
@@ -294,7 +295,7 @@ class Individual:
      */
     """
 
-    def hux(self, indiv):
+    def hux(self, seed_value, indiv):
         i = 0
         dist = 0
         random_value = 0
@@ -311,6 +312,7 @@ class Individual:
         npos = int(dist / 2)
 
         for i in range(0, npos):
+            random.seed(seed_value)
             random_value = random.randint(0, dist-1)
             #print("len(position_array) is" +str(len(position_array))+ "random_value"+str(random_value))
             aux = self.geneR_array[position_array[random_value]]

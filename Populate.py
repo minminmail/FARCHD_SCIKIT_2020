@@ -4,6 +4,7 @@ from RuleBase import RuleBase
 from MyDataSet import MyDataSet
 from random import randrange, randint
 import logging
+import random
 from Logger import Logger 
 
 
@@ -28,6 +29,7 @@ class Populate:
     data_base = None
     rule_base = None
     logger = None
+    seed_value =None
 
     """
     * Maximization
@@ -60,8 +62,9 @@ class Populate:
     
     """
 
-    def init_with_multiple_parameters(self, train_mydataset_pass, data_base, rule_base_pass, size, bits_gen, maxtrials,
+    def init_with_multiple_parameters(self, seed_value,train_mydataset_pass, data_base, rule_base_pass, size, bits_gen, maxtrials,
                                       alpha):
+        self.seed_value = seed_value
         self.logger=Logger.set_logger()
         self.data_base = data_base
         self.train_mydataset = train_mydataset_pass
@@ -123,7 +126,7 @@ class Populate:
     def selection(self):
 
         aux = None
-        random = None
+        random_value = None
 
         for i in range(0, self.pop_size):
             self.selected_array[i] = i
@@ -133,10 +136,12 @@ class Populate:
             numpy.random.randint(low, high=None, size=None, dtype='l')¶
             Return random integers from low (inclusive) to high (inclusive). looks include the high also, 
             """
-            random = randint(0, self.pop_size-1)
-            print("random is :" + str(random))
-            aux = self.selected_array[random]
-            self.selected_array[random] = self.selected_array[i]
+
+            random.seed(self.seed_value)
+            random_value = randint(0, self.pop_size-1)
+            print("random is :" + str(random_value))
+            aux = self.selected_array[random_value]
+            self.selected_array[random_value] = self.selected_array[i]
             self.selected_array[i] = aux
         for i in range(0, self.pop_size):
             self.logger.debug( "In selection, self.selected_array["+ str(i)+ "]"+ str(self.selected_array[i]))
@@ -145,7 +150,7 @@ class Populate:
         son1_individual.xpc_blx(son2_individual, d_value)
 
     def hux(self, son1_individual, son2_individual):
-        son1_individual.hux(son2_individual)
+        son1_individual.hux(self.seed_value,son2_individual)
 
     def cross_over(self):
 
