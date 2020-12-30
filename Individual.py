@@ -399,18 +399,4 @@ class Individual:
             return 1
         return 0
         
-        
-    """
-            * Function to return if this individual is new in the population
-            * @return boolean true = it is-, false = it isn't
-    """
-
-    def is_new(self):
-        return self.n_e == 1
-
-    """
-     Modifies the new flag to false. 
-    """
-
-    def off_new(self):
-        self.n_e = 0
+    

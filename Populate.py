@@ -187,7 +187,7 @@ class Populate:
             # print("len(self.population_array)"+str(len(self.population_array)))
             # print("len(self.pop_size)" + str(self.pop_size))
             # print("value " + str(self.population_array[self.pop_size]))
-            self.logger.debug("In elitist,pop， self.population_array[" + str(self.pop_size)+ "].fitness" + str(self.population_array[self.pop_size].fitness))
+            self.logger.debug("In elitist,  pop， self.population_array[" + str(self.pop_size)+ "].fitness" + str(self.population_array[self.pop_size].fitness))
             self.population_array.pop(self.pop_size)
 
         for i in range (0, len(self.population_array)):
@@ -236,11 +236,18 @@ class Populate:
             self.population_array.append(ind)
 
         self.evaluate(0)
+
+        
+
+        for i in range ( 0, len(self.population_array)):
+           
+            self.logger.debug("in restart of populate class, after  self.evaluate(0), self.population_array["+str(i)+"].fitness"+ str(self.population_array[i].fitness))
+
         self.l_value = self.lini
 
-    """
-    * Return the best individual in the population 
-    """
+        """
+        * Return the best individual in the population 
+        """
 
     def get_best_RB(self):
 

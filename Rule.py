@@ -217,8 +217,7 @@ class Rule:
             if example_weight.is_active():
                 if self.matching(train_mydataset_pass.get_example(i)) > 0.0:
                     example_weight.inc_count()
-                    if not example_weight.is_active() and (
-                            train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value):
+                    if (not example_weight.is_active()) and (train_mydataset_pass.get_output_as_integer_with_pos(i) == self.class_value):
                         count = count + 1
         return count
 
