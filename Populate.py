@@ -111,7 +111,7 @@ class Populate:
         for i in range(1, self.pop_size):
             ind = Individual()
             ind.init_with_parameter(self.rule_base, self.data_base, self.w1)
-            ind.random_values()
+            ind.random_values(self.seed_value)
             self.population_array.append(ind)
             print(" the init loop  method added "+ str(i)+"individuals ")
 
@@ -139,7 +139,7 @@ class Populate:
 
             random.seed(self.seed_value)
             random_value = randint(0, self.pop_size-1)
-            print("random is :" + str(random_value))
+            #print("random is :" + str(random_value))
             aux = self.selected_array[random_value]
             self.selected_array[random_value] = self.selected_array[i]
             self.selected_array[i] = aux
@@ -237,7 +237,7 @@ class Populate:
         for i in range(1, self.pop_size):
             ind = Individual()
             ind.init_with_parameter(self.rule_base, self.data_base, self.w1)
-            ind.random_values()
+            ind.random_values(self.seed_value)
             self.population_array.append(ind)
 
         self.evaluate(0)
@@ -257,9 +257,9 @@ class Populate:
     def get_best_RB(self):
 
         for i in range ( 0, len(self.population_array)):
-            print("self.population_array["+str(i)+"].fitness")
+            #print("self.population_array["+str(i)+"].fitness")
             self.logger.debug("in get_best_RB of populate, in populate class, self.population_array["+str(i)+"].fitness"+ str(self.population_array[i].fitness))
-            print(self.population_array[i].fitness)
+            # print(self.population_array[i].fitness)
 
 
         self.population_array.sort(key=lambda x: x.fitness,reverse=True)

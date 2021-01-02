@@ -26,6 +26,7 @@ class LoadFiles:
     output_ts_file = ""
     output_files = []
     file_path = None
+    result_path = None
     data_folder = None
 
     train_mydataset = None
@@ -41,48 +42,26 @@ class LoadFiles:
         self.output_files = []
         self.parameters = []
         self.file_path = None
+        self.result_path = None
         self.data_folder = None
         self.something_wrong = False
 
-    def parse_configuration_file(self, path_name, file_name):
+    def parse_configuration_file(self, file_name):
 
-
-        self.file_path = path_name
-        print("file_path in parseConfigurationFile is :" + self.file_path)
-        whole_path = os.getcwd() + "\\" + path_name
-        print("whole_path is :" + whole_path)
-        self.data_folder = Path(whole_path)
-        print("data_folder is :" + str(self.data_folder))
-        self.file_to_open = str(self.data_folder / file_name)
-        print("self.file_to_open :" + self.file_to_open)
-        file = open(self.file_to_open, "r")
+        self.file_to_open = file_name
+        print("self.file_to_open :" + str(self.file_to_open))
+        config_file = open(self.file_to_open, "r")
 
         logging.info("fileName in parseParameters = " + file_name)
         logging.info("before open file")
-        # print(fileName)
-        # print("file in parseConfigurationFile is :" + str(fileName))
-        # self.file_path = '\\'.join(file_name.split('\\')[0:-1])
 
-        self.file_path = path_name
-        print("file_path in parseConfigurationFile is :" + self.file_path)
-        whole_path = os.getcwd() + "\\" + path_name
-        print("whole_path is :" + whole_path)
-        self.data_folder = Path(whole_path)
-        print("data_folder is :" + str(self.data_folder))
-        self.file_to_open = str(self.data_folder / file_name)
-        print("self.file_to_open :" + self.file_to_open)
-        file = open(self.file_to_open, "r")
 
-        """
-        self.file_path = path_name
-        self.data_folder = os.getcwd() + "\\" + self.file_path + "\\"
-        file_name = self.data_folder + file_name
-        print("file_path in parseConfigurationFile is :" + self.file_path)
-        file = open(file_name, "r")
-        """
+        self.file_path = "\\FarcHD_py\\iris\\dataset"
+        self.result_path = "\\FarcHD_py\\iris"
+
 
         # file is an string containing the whole file
-        file_string = file.read()
+        file_string = config_file.read()
         line = file_string.splitlines()
 
         for line_number in range(0, len(line)):
@@ -95,7 +74,7 @@ class LoadFiles:
                 self.read_output_files(line[line_number])  # We read all the output files
             else:  # read parameters and save into map
                 self.read_all_parameters(line[line_number])  # We read all the possible parameters
-        print("__init__ of Read Files begin...")
+        # print("__init__ of Read Files begin...")
 
         self.train_mydataset = MyDataSet()
         self.val_mydataset = MyDataSet()
@@ -106,12 +85,19 @@ class LoadFiles:
             input_training_file = self.get_input_training_files()
             print("Reading the training set: " + input_training_file)
 
+        
+
             self.train_mydataset.read_classification_set(input_training_file, True, self.file_path)
+            
             print("Reading the validation set: ")
             input_validation_file = self.get_validation_input_file()
+        
             self.val_mydataset.read_classification_set(input_validation_file, True, self.file_path)
+
             print("Reading the test set: ")
-            self.test_mydataset.read_classification_set(self.get_input_test_files(), False, self.file_path)
+            input_test_file = self.get_input_test_files()
+      
+            self.test_mydataset.read_classification_set(input_test_file, False, self.file_path)
             print(" ********* test_mydataset.myDataSet read_classification_set finished !!!!!! *********")
         except IOError as ioError:
             print("I/O error: " + str(ioError))

@@ -3,6 +3,7 @@ from decimal import Decimal
 import numpy as np
 from numpy import array
 from Fuzzy import Fuzzy
+from Logger import Logger
 
 
 class DataBase:
@@ -18,6 +19,7 @@ class DataBase:
     names = []
     # not use in FarcHD
     cadena = None
+    logger = None
 
     # Default constructor
     def __init__(self):
@@ -37,7 +39,7 @@ class DataBase:
     # '''
     # modified at 2020-08-14
     def init_with_three_parameters(self, n_labels_pass, train_my_dataset):
-
+        logger = Logger.set_logger()
         ranks = train_my_dataset.get_ranges()
 
         self.n_variables = train_my_dataset.get_ninputs()
@@ -82,6 +84,12 @@ class DataBase:
                 
                 self.database[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
                 self.database_ini[i][j].name = "L_" + str(j) + "(" + str(self.nlabels_array[i]) + ")"
+
+                logger.debug("database["+str(i)+"]"+"["+str(j)+"]" +".x0 :"+" :"+ str( self.database_ini[i][j].x0))
+                logger.debug("database["+str(i)+"]"+"["+str(j)+"]"+".x1 :"+" :"+ str( self.database_ini[i][j].x1))
+                logger.debug("database["+str(i)+"]"+"["+str(j)+"]"+".x3 :"+" :"+ str( self.database_ini[i][j].x3))
+                logger.debug("database["+str(i)+"]"+"["+str(j)+"]"+".name :"+" :"+ str( self.database_ini[i][j].name))
+                logger.debug("--------------------------------------------------------------------------------")
             # print("finished init database")
             
 

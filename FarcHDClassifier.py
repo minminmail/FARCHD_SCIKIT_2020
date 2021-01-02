@@ -135,16 +135,26 @@ class FarcHDClassifier():
         self.output_tr = prepare_parameter.get_training_output_file()
         self.output_tst = prepare_parameter.get_test_output_file()
 
-        self.file_db = prepare_parameter.get_output_file(0)
-        self.file_rb = prepare_parameter.get_output_file(1)
+        output_file_folder = "results"
+
+        file_db_name = prepare_parameter.get_output_file(0)
+        file_rb_name = prepare_parameter.get_output_file(1)
+
+        self.file_db= os.path.join(prepare_parameter.result_path , output_file_folder + "\\"+file_db_name)
+
+        self.file_rb =os.path.join(prepare_parameter.result_path , output_file_folder + "\\"+file_rb_name)
+
+        self.file_db =os.getcwd() + self.file_db
+        self.file_rb =os.getcwd() + self.file_rb
+
         self.data_string = prepare_parameter.get_input_training_files()
 
         output_file = prepare_parameter.get_output_file(1)
-        print(" output_file is : " + output_file)
-        output_file_folder = "results"
-        self.file_time = prepare_parameter.file_path + "//" + output_file_folder + "/time.txt"
-        self.file_hora = prepare_parameter.file_path + "//" + output_file_folder + "/hora.txt"
-        self.file_rules = prepare_parameter.file_path + "//" + output_file_folder + "/rules.txt"
+        # print("output_file is : " + output_file)
+       
+        self.file_time =os.getcwd()+  prepare_parameter.result_path + "\\" + output_file_folder + "\\" +"time.txt"
+        self.file_hora =os.getcwd() + prepare_parameter.result_path + "\\" + output_file_folder +"\\" +"hora.txt"
+        self.file_rules = os.getcwd()+ prepare_parameter.result_path +"\\"+ output_file_folder + "\\" +"rules.txt"
         # Now we parse the parameters long
         self.seed_int = int(float(prepare_parameter.get_parameter(0)))
 
@@ -262,10 +272,10 @@ class FarcHDClassifier():
                 mydataset.get_example(i)) + "\n"
 
         if os.path.isfile(filename):
-            print("File exist")
+            # print("File exist")
             output_file = open(filename, "a+")
         else:
-            print("File not exist")
+            # print("File not exist")
             output_file = open(filename, "w+")
 
         output_file.write(output)

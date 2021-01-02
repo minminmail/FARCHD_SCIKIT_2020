@@ -121,7 +121,7 @@ class RuleBase:
                 cadena_string += names[j] + " IS " + rule.data_base.print_here(j, rule.antecedent[j])
                 ant = ant + 1
             	
-            print("after if , j is :" + str(j))
+            # print("after if , j is :" + str(j))
             j=j+1
             k =j
             for j in range(k , self.n_variables):
@@ -446,7 +446,8 @@ class RuleBase:
                     print("There was an Error while searching for the antecedent of the rule")
                     # print("Example: ")
                     for n in range(0, self.n_variables):
-                        print(str(example[n]) + "\t")
+                        # print(str(example[n]) + "\t")
+                        pass
 
                     print("Variable " + str(m))
                     exit(1)
@@ -473,14 +474,14 @@ class RuleBase:
     def calculate_confident_support_rulebase(self, train):
         class_value_arr = self.get_class_value_array(train)
         str_print = "Totally there are: " + str(len(self.rule_base_array)) + " rules"
-        print(str_print)
+        # print(str_print)
         index_number = 1
 
         for each_rule in self.rule_base_array:
             each_rule.calculate_confident_support(self.data_row_array)
-            print(str(index_number) + " -- each_rule.weight :" + str(each_rule.weight) + ",zone_confident :" + str(
-                each_rule.zone_confident) + ",calculate_confident :" + str(each_rule.confident_value))
-            print(" -- each_rule.support_value :" + str(each_rule.support_value))
+            # print(str(index_number) + " -- each_rule.weight :" + str(each_rule.weight) + ",zone_confident :" + str(
+            #    each_rule.zone_confident) + ",calculate_confident :" + str(each_rule.confident_value))
+            # print(" -- each_rule.support_value :" + str(each_rule.support_value))
             index_number = index_number + 1
 
     def get_inference_type(self):
@@ -688,7 +689,7 @@ class RuleBase:
 
         self.fitness = (100.0 * nhits) / (1.0 * self.train_myDataSet.size())
         self.logger.debug("In ruleBase , evaluate_with_two_parameters, recalulation the fitness, the self.fitness is :" + str(self.fitness))
-        print("evaluate_with_two_parameters :IN Rule Base, fitness is :" + str(self.fitness))
+        # print("evaluate_with_two_parameters :IN Rule Base, fitness is :" + str(self.fitness))
 
     """
      /**

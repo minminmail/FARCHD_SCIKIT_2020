@@ -179,12 +179,12 @@ class InstanceSet:
     # * header of the input file
 
     def read_set(self, fileName, isTrain,file_path):
-        print("Before try in readSet of InstanceSet, fileName is :" + str(fileName) + ".")
+        print("Before try in readSet of InstanceSet, file_path is :" + str(file_path) + ".")
         print("Opening the file in readSet of InstanceSet: " + str(fileName) + ".")
         try:
             # Parsing the header of the DB.
             errorLogger = FormatErrorKeeper()
-            whole_path = os.getcwd() + "\\" + file_path+ "\\dataset\\"
+            whole_path = os.getcwd()  + file_path
             print("whole_path :" + whole_path)
             self.data_folder = Path(whole_path)
             print("self.data_folder :" + str(self.data_folder))

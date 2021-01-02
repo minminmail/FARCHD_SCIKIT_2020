@@ -42,6 +42,7 @@ from LoadFiles import LoadFiles
 from FarcHDClassifier import FarcHDClassifier
 import numpy as np
 from Logger import Logger
+import os
 
 
 class Main:
@@ -68,24 +69,30 @@ class Main:
 
         lf = LoadFiles()
         logger.debug("Begin  lf.parse_configuration_file in Main ")
-        lf.parse_configuration_file("FarcHD_py\iris", "config1s0.txt")
-        X = lf.get_X()
-        y = lf.get_y()
-        indices = np.random.permutation(len(X))
 
-        iris_X_test = lf.get_test_x()
-        iris_y_test = lf.get_test_y()
-        
-        logger.debug("Begin  FarcHDClassifier in Main ")
-        farchd_classifier = FarcHDClassifier(lf)
+        for filename in os.listdir("FarcHD_py\iris\config"):
+
+            whole_file_name_with_path= os.path.join("FarcHD_py\iris\config",filename)
+
+            # lf.parse_configuration_file("FarcHD_py\iris", "config1s0.txt")
+            lf.parse_configuration_file(whole_file_name_with_path)
+            X = lf.get_X()
+            y = lf.get_y()
+            indices = np.random.permutation(len(X))
+
+            iris_X_test = lf.get_test_x()
+            iris_y_test = lf.get_test_y()
+            
+            logger.debug("Begin  FarcHDClassifier in Main ")
+            farchd_classifier = FarcHDClassifier(lf)
 
 
-        logger.debug("Begin  farchd_classifier.fit in Main ")
-        farchd_classifier.fit(X, y)
-        test_x = [4.6, 3.1, 1.5, 0.2]
+            logger.debug("Begin  farchd_classifier.fit in Main ")
+            farchd_classifier.fit(X, y)
+            test_x = [4.6, 3.1, 1.5, 0.2]
 
-        logger.debug("Begin  farchd_classifier.predictin Main ")
-        farchd_classifier.predict(iris_X_test)
+            logger.debug("Begin  farchd_classifier.predictin Main ")
+            farchd_classifier.predict(iris_X_test)
 
-        logger.debug("Begin  farchd_classifier.score Main ")
-        farchd_classifier.score(iris_X_test, iris_y_test)
+            logger.debug("Begin  farchd_classifier.score Main ")
+            farchd_classifier.score(iris_X_test, iris_y_test)

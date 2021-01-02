@@ -570,7 +570,7 @@ class MyDataSet:
                                     self.x_array[j][i] - self.average_array[i])
 
                     if data_num != 0:
-                        print("dataNum != 0" + " , dataNum=" + str(data_num))
+                        # print("dataNum != 0" + " , dataNum=" + str(data_num))
                         sum_value = sum_value / data_num
                     self.stdev_array[i] = math.sqrt(sum_value)
 

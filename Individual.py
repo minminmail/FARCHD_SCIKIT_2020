@@ -29,9 +29,9 @@
 **********************************************************************/
 """
 from RuleBase import RuleBase
-import numpy as np
 import math
 import random
+import numpy as np
 from Logger import Logger
 
 class Individual:
@@ -109,14 +109,16 @@ class Individual:
     * Initialization of the individual with random values.
     """
 
-    def random_values(self):
+    def random_values(self,seed_value):
+
+        random.seed(seed_value)
    
         if self.ngenes > 0:
             for i in range(0, self.ngenes):
-                self.gene_array[i] = np.random.rand()
+                self.gene_array[i] = random.random()
 
         for i in range(0, len(self.geneR_array)):
-            if np.random.rand() < 0.5:
+            if random.random() < 0.5:
                 self.geneR_array[i] = 0
             else:
                 self.geneR_array[i] = 1
@@ -391,7 +393,7 @@ class Individual:
         self.fitness = self.accuracy - (self.w1_value / (self.rule_base.get_size() - self.get_nselected() + 1.0)) - (
                 5.0 * self.rule_base.get_uncover()) - (5.0 * self.rule_base.has_class_uncovered(self.geneR_array))
         self.logger.debug (" In individual calcuates the fitness with accuracy, the fitness is :" +str(self.fitness))
-        print("fitness in evaluate is : " + str(self.fitness ))
+        # print("fitness in evaluate is : " + str(self.fitness ))
 
     def compare_to(self, a_object):
         if a_object.fitness < self.fitness:
